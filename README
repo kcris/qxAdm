@@ -12,11 +12,11 @@ d.s.t@g.com
 
 Steps to version 1.0
 
-0.3 components, columns, observers
+0.3 auto-split-components, columns, observers
 0.4 xml serialization (db persistence? sqlite?)
 0.5 backreferences + timeline
 0.6 basic user interface
-0.7 print + preview + export pdf
+0.7 print + preview + export pdf;  edit/print modes
 0.8 custom/overridden inputs
 0.9 validation + colors + detailed calculus
 
