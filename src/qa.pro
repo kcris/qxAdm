@@ -10,7 +10,7 @@ TARGET = qa
 TEMPLATE = app
 
 include(didisoft.pri)
-include(core.pri)
+include(core\core.pri)
 
 SOURCES += main.cpp\
         MainWindow.cpp \

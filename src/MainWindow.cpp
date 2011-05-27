@@ -16,13 +16,13 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 
-#include "Sheet.h"
-#include "BasicColumns.h"
-#include "InputDivColumn.h"
-#include "InputCntColumn.h"
-#include "OutputAutoSumColumn.h"
-#include "OutputAutoSplitColumn.h"
-#include "Invoice.h"
+#include "core/Sheet.h"
+#include "core/BasicColumns.h"
+#include "core/InputDivColumn.h"
+#include "core/InputCntColumn.h"
+#include "core/OutputAutoSumColumn.h"
+#include "core/OutputAutoSplitColumn.h"
+#include "core/Invoice.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
