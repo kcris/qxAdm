@@ -13,7 +13,7 @@ d.s.t@g.com
 Steps to version 1.0
 
 0.3 auto-split-components, columns, observers
-0.4 xml serialization (db persistence? sqlite?)
+0.4 serialization (json? xml? db persistence? sqlite?)
 0.5 backreferences + timeline
 0.6 basic user interface
 0.7 print + preview + export pdf;  edit/print modes
