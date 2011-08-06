@@ -163,7 +163,7 @@ numeric_t InputColumn::getInputValue(const numeric_t & referenceValue, const Out
 
 void InputColumn::setCustomInputValue(const OutputColumn * pColumn, const RowId & forRow)
 {
-
+  //store a map of custom values (per row, per output column)
 }
 
 

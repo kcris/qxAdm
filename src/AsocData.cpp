@@ -77,18 +77,18 @@ bool load(const QString & json, Asoc& asoc)
       Column c;
       c.name = column["name"].toString();
       c.type = column["type"].toString();
-      c.invoices = column["invoices"].toList();
+      //c.invoices = column["invoices"].toList();
 
       QVariantMap commons = column["commons"].toMap();
       c.commonsPercent = commons["percent"].toDouble();
-      c.commonsBy = commons["by"].toList();
+      //c.commonsBy = commons["by"].toList();
 
       QVariantMap counted = column["counted"].toMap();
       c.countedUnits = counted["units"].toDouble();
-      c.countedBy = counted["by"].toList();
+      //c.countedBy = counted["by"].toList();
 
       QVariantMap divided = column["divided"].toMap();
-      c.dividedBy = divided["by"].toList();
+      //c.dividedBy = divided["by"].toList();
 
       sh.columns.insert(colId, c);
     }
