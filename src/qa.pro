@@ -35,3 +35,5 @@ FORMS    += MainWindow.ui \
     EditInvoices.ui
 
 OTHER_FILES += ../var/qa.json
+
+DESTDIR=$$PWD/../bin

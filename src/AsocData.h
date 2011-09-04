@@ -29,6 +29,9 @@ struct Sheet
 
 struct Asoc
 {
+  bool load(const QString & jsonFilename);
+  bool save(const QString & jsonFilename) const;
+
   QString headerLeft;
   QString headerCenter;
   QString headerRight;

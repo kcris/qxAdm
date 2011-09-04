@@ -6,6 +6,8 @@
 #include <QtCore/QVariant>
 #include <QtCore/QVariantMap>
 
+#include <QtCore/QFile>
+
 struct QVariantConvertException
 {
   QVariantConvertException(const QString & err) : m_err(err) {}
@@ -50,8 +52,11 @@ bool load(const QString & json, Asoc& asoc)
   asoc.footerCenter    = asocFooter["center"].toString();
   asoc.footerRight     = asocFooter["right"].toString();
 
+  QVariantList sheetsList = root["sheets"].toList();
+
   //sheet
-  QVariantMap sheet = root["2011.07"].toMap(); //read a specific sheet, by date
+  QVariantMap sheetData = sheetsList.front().toMap(); //TODO: read a specific sheet, by date
+  QVariantMap sheet = sheetData["2011.07"].toMap();
 
   Sheet sh;
 
@@ -94,5 +99,31 @@ bool load(const QString & json, Asoc& asoc)
     }
   }
 
+  asoc.sheets.insert("2011.07", sh);
+
   return ok;
 }
+
+bool Asoc::load(const QString &jsonFilename)
+{
+  QFile file(jsonFilename);
+  if (file.open(QIODevice::ReadOnly | QIODevice::Text))
+  {
+    const QString & json = file.readAll();
+    return ::load(json, *this);
+  }
+
+  return false;
+}
+
+//bool Asoc::save(const QString &jsonFilename) const
+//{
+//  QFile file(jsonFilename);
+//  if (file.open(QIODevice::WriteOnly | QIODevice::Text))
+//  {
+//    const QString & json = ::save(*this);
+//    return 0 < file.write(json);
+//  }
+
+//  return false;
+//}

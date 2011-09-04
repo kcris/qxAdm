@@ -5,7 +5,7 @@
     
     "sheets" :
     [
-		{ "iul.2011": 
+		{ "2011.07": 
 			{
 			    "invoices": 
 			    [
@@ -40,11 +40,16 @@
 			    "asoc.lodgers": 
 			    [
 				{"uuid10": "10", "p": 3, "s": 55, "cpi": 5}
+			    ],
+			    
+			    "custom.inputs":
+			    [
+				{"output.col":"uuid", "lodger.row":"uuid", "value":"x"}
 			    ]
 			}
 		},
 	    
-		{ "aug.2011": 
+		{ "2011.08": 
 			{}
 		}
     ],
