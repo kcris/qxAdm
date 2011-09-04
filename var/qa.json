@@ -44,7 +44,7 @@
 			    
 			    "custom.inputs":
 			    [
-				{"output.col":"uuid", "lodger.row":"uuid", "value":"x"}
+				{"output.col":"uuid", "lodger.row":"uuid", "p":0}
 			    ]
 			}
 		},
