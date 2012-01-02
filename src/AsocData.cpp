@@ -55,8 +55,8 @@ bool load(const QString & json, AsocData& asoc)
   QVariantList sheetsList = root["sheets"].toList();
 
   //sheet
-  QVariantMap sheetData = sheetsList.front().toMap(); //TODO: read a specific sheet, by date
-  QVariantMap sheet = sheetData["2011.07"].toMap();
+  QVariantMap sheetItem = sheetsList.front().toMap(); //2011.07; TODO: read a specific sheet, by date
+  QVariantMap sheet = sheetItem["2011.07"].toMap();
 
   SheetData sh;
 
@@ -73,15 +73,6 @@ bool load(const QString & json, AsocData& asoc)
     }
   }
 
-//  {
-//    ColumnData* ccc = new ColumnData();
-//    delete ccc; // no crash here
-
-//    ColumnData cc;
-//    cc.name = "";
-//    //but dtor CRASHes here!?!?!
-//  }
-
   //sheet.columns
   foreach (QVariant col, sheet["columns"].toList())
   {
@@ -90,9 +81,8 @@ bool load(const QString & json, AsocData& asoc)
     if (column.isEmpty())
       continue;
 
-    const QString colId = column["id"].toString();
-
     ColumnData c;
+    c.id = column["id"].toString();
     c.name = column["name"].toString();
     c.type = column["type"].toString();
     foreach (QVariant inv, column["invoices"].toList())
@@ -123,7 +113,7 @@ bool load(const QString & json, AsocData& asoc)
         c.countedBy.append(byDiv.toString());
     }
 
-    sh.columns.insert(colId, c);
+    sh.columns.insert(c.id, c);
   }
 
   asoc.sheets.insert("2011.07", sh);

@@ -20,6 +20,7 @@
 
 #include "commons.h"
 #include "Column.h"
+#include "AsocData.h"
 
 struct ICellObserver
 {
@@ -32,9 +33,11 @@ struct Sheet
 {
   enum enMode {editMode, printMode}; //different columns set available when printing!
 
-  Sheet(ICellObserver* obs = NULL);
+  Sheet(const SheetData& data, ICellObserver* obs = NULL);
 
   //TODO: load/save support
+  void load(const SheetData& data);
+
   void insertRow(const RowId& newRowId = RowId(), const RowId& rowId = RowId());
   void deleteRow(const RowId& rowId);
   void insertColumn(Column* newCol, const ColId& colId = ColId());
@@ -65,7 +68,7 @@ private:
 struct SheetModel : public QAbstractTableModel
                   , public ICellObserver
 {
-  SheetModel(QObject* parent = NULL);
+  SheetModel(SheetData& s, QObject* parent = NULL);
 
   //implement ICellObserver
   virtual void update(int row, int col);
@@ -80,7 +83,7 @@ protected:
   virtual bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
   //virtual QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
   //virtual QModelIndex parent(const QModelIndex &index) const;
-public:
+private:
   Sheet m_sheet;
 };
 

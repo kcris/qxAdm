@@ -6,8 +6,17 @@
 #include <QtCore/QMap>
 #include <QtCore/QUuid>
 
+struct LodgerData
+{
+  QUuid id;
+  QString name;
+
+  //TODO: add properties bag
+};
+
 struct ColumnData
 {
+  QUuid id;
   QString name;
   QString type;
   QList<QString> invoices;
@@ -25,6 +34,11 @@ struct SheetData
 {
   QMap<QString, double> invoices; //name -> value
   QMap<QUuid, ColumnData> columns;  //id -> ...
+  QMap<QUuid, LodgerData> lodgers;  //id -> ...
+
+  //TODO: add
+  //asoc.lodgers
+  //custom.inputs
 };
 
 struct AsocData

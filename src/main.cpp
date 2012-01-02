@@ -12,18 +12,12 @@
  * $Rev:$
  */
 
-
 #include <QtGui/QApplication>
 #include "MainWindow.h"
-
-#include "AsocData.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-
-    AsocData asoc;
-    asoc.load("../var/qa.json");
 
     MainWindow w;
     w.show();

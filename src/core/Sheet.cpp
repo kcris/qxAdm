@@ -14,17 +14,82 @@
 
 
 
-#include "Sheet.h"
-#include "Cell.h"
+#include "core/Sheet.h"
+#include "core/Cell.h"
+
+#include "core/BasicColumns.h"
+#include "core/InputDivColumn.h"
+#include "core/InputCntColumn.h"
+#include "core/OutputAutoSumColumn.h"
+#include "core/OutputAutoSplitColumn.h"
+#include "core/Invoice.h"
 
 /*
  * main bzl class
  */
-Sheet::Sheet(ICellObserver* obs /*= NULL*/)
+Sheet::Sheet(const SheetData& data, ICellObserver* obs /*= NULL*/)
   : m_mode(editMode)
   , m_pObserver(obs)
 {
+  load(data);
 }
+
+void Sheet::load(const SheetData& data)
+{
+  /* 1. add rows */
+
+  //24 rows
+  insertRow();
+  insertRow();
+  insertRow();
+  insertRow();
+  insertRow();
+  insertRow();
+  insertRow();
+  insertRow();
+  insertRow();
+  insertRow();
+  insertRow();
+  insertRow();
+  insertRow();
+  insertRow();
+  insertRow();
+  insertRow();
+  insertRow();
+  insertRow();
+  insertRow();
+  insertRow();
+  insertRow();
+  insertRow();
+  insertRow();
+  insertRow();
+
+  /* 2. add columns */
+  insertColumn(new StringColumn(*this, ColId(), "nume")); //special column: name always comes first
+
+  InputDivColumn* pPers = new InputDivColumn(*this, ColId(), "p");
+  insertColumn(pPers);
+
+  InputCntColumn* pCnt = new InputCntColumn(*this, ColId(), "ac1");
+  insertColumn(pCnt);
+
+  insertColumn(new OutputAutoSumColumn(*this, ColId(), "restante"));
+
+  OutputAutoSplitColumn* pCol = new OutputAutoSplitColumn(*this, ColId(), "salubr");
+  insertColumn(pCol);
+  pCol->addCommonsInput(pPers);   pCol->setCommonsPercent(0);
+  pCol->addCountedInput(pCnt);    pCol->setCountedUnits(0);
+  pCol->addDividedInput(pPers);
+  pCol->addInvoice(new Invoice(352.46, "retim"));
+  pCol->splitAmount();
+
+  insertColumn(new TotalColumn(*this, ColId(), "TOTAL")); //special column: total always comes last
+
+
+  /* 3. customize inputs */
+  //see InputColumn::setCustomInputValue
+}
+
 
 void Sheet::insertRow(const RowId& newRowId /*= RowId()*/, const RowId& rowId /*= RowId()*/)
 {
@@ -192,9 +257,9 @@ ICell* Sheet::cellAt(int row, int column) const
 /*
  * qt model used to be attached to our tableview
  */
-SheetModel::SheetModel(QObject* parent /*= NULL*/)
+SheetModel::SheetModel(SheetData& s, QObject* parent /*= NULL*/)
   : QAbstractTableModel(parent)
-  , m_sheet(this)
+  , m_sheet(s, this)
 {
 }
 
