@@ -28,7 +28,7 @@ QVariantMap toMap(QVariantMap & parent, const QString & name)
   return v.toMap();
 }
 
-bool load(const QString & json, Asoc& asoc)
+bool load(const QString & json, AsocData& asoc)
 {
   QJson::Parser parser;
   bool ok = true;
@@ -58,7 +58,7 @@ bool load(const QString & json, Asoc& asoc)
   QVariantMap sheetData = sheetsList.front().toMap(); //TODO: read a specific sheet, by date
   QVariantMap sheet = sheetData["2011.07"].toMap();
 
-  Sheet sh;
+  SheetData sh;
 
   //sheet.invoices
   foreach (QVariant inv, sheet["invoices"].toList())
@@ -66,37 +66,64 @@ bool load(const QString & json, Asoc& asoc)
     const QVariantMap invoices = inv.toMap();
     for (QVariantMap::const_iterator it = invoices.begin(), itEnd = invoices.end(); it != itEnd; ++it)
     {
-      sh.invoices.insert(it.key(), it.value().toInt());
+      QString invName = it.key();
+      double invValue = it.value().toDouble();
+
+      sh.invoices.insert(invName, invValue);
     }
   }
+
+//  {
+//    ColumnData* ccc = new ColumnData();
+//    delete ccc; // no crash here
+
+//    ColumnData cc;
+//    cc.name = "";
+//    //but dtor CRASHes here!?!?!
+//  }
 
   //sheet.columns
   foreach (QVariant col, sheet["columns"].toList())
   {
-    foreach (QVariant co, col.toMap())
+    QVariantMap column = col.toMap();
+
+    if (column.isEmpty())
+      continue;
+
+    const QString colId = column["id"].toString();
+
+    ColumnData c;
+    c.name = column["name"].toString();
+    c.type = column["type"].toString();
+    foreach (QVariant inv, column["invoices"].toList())
     {
-      QVariantMap column = co.toMap();
-
-      const QString colId = column["id"].toString();
-
-      Column c;
-      c.name = column["name"].toString();
-      c.type = column["type"].toString();
-      //c.invoices = column["invoices"].toList();
-
-      QVariantMap commons = column["commons"].toMap();
-      c.commonsPercent = commons["percent"].toDouble();
-      //c.commonsBy = commons["by"].toList();
-
-      QVariantMap counted = column["counted"].toMap();
-      c.countedUnits = counted["units"].toDouble();
-      //c.countedBy = counted["by"].toList();
-
-      QVariantMap divided = column["divided"].toMap();
-      //c.dividedBy = divided["by"].toList();
-
-      sh.columns.insert(colId, c);
+      c.invoices.append(inv.toString());
     }
+
+    QVariantMap commons = column["commons"].toMap();
+    if (!commons.isEmpty())
+    {
+      c.commonsPercent = commons["percent"].toDouble();
+      foreach (QVariant byCom, commons["by"].toList())
+        c.commonsBy.append(byCom.toString());
+    }
+
+    QVariantMap counted = column["counted"].toMap();
+    if (!counted.isEmpty())
+    {
+      c.countedUnits = counted["units"].toDouble();
+      foreach (QVariant byCnt, counted["by"].toList())
+        c.countedBy.append(byCnt.toString());
+    }
+
+    QVariantMap divided = column["divided"].toMap();
+    if (!divided.isEmpty())
+    {
+      foreach (QVariant byDiv, divided["by"].toList())
+        c.countedBy.append(byDiv.toString());
+    }
+
+    sh.columns.insert(colId, c);
   }
 
   asoc.sheets.insert("2011.07", sh);
@@ -104,7 +131,7 @@ bool load(const QString & json, Asoc& asoc)
   return ok;
 }
 
-bool Asoc::load(const QString &jsonFilename)
+bool AsocData::load(const QString &jsonFilename)
 {
   QFile file(jsonFilename);
   if (file.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -116,7 +143,7 @@ bool Asoc::load(const QString &jsonFilename)
   return false;
 }
 
-//bool Asoc::save(const QString &jsonFilename) const
+//bool AsocData::save(const QString &jsonFilename) const
 //{
 //  QFile file(jsonFilename);
 //  if (file.open(QIODevice::WriteOnly | QIODevice::Text))

@@ -6,7 +6,7 @@
 #include <QtCore/QMap>
 #include <QtCore/QUuid>
 
-struct Column
+struct ColumnData
 {
   QString name;
   QString type;
@@ -21,13 +21,13 @@ struct Column
   QList<QUuid> dividedBy; //auto-split input columns
 };
 
-struct Sheet
+struct SheetData
 {
   QMap<QString, double> invoices; //name -> value
-  QMap<QUuid, Column> columns;  //id -> ...
+  QMap<QUuid, ColumnData> columns;  //id -> ...
 };
 
-struct Asoc
+struct AsocData
 {
   bool load(const QString & jsonFilename);
   bool save(const QString & jsonFilename) const;
@@ -40,7 +40,7 @@ struct Asoc
   QString footerCenter;
   QString footerRight;
 
-  QMap<QString, Sheet> sheets;
+  QMap<QString, SheetData> sheets;
 };
 
 #endif // ASOCDATA_H

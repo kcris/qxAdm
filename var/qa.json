@@ -1,61 +1,60 @@
 {
-    "asoc.header": {"left": "l", "center": "c", "right": "r" },
+  "asoc.header": {"left": "l", "center": "c", "right": "r" },
+
+  "asoc.footer": { "left": "l", "center": "c", "right": "r" },
     
-    "asoc.footer": { "left": "l", "center": "c", "right": "r" },
-    
-    "sheets" :
-    [
-		{ "2011.07": 
-			{
-			    "invoices": 
-			    [
-				{"calor.inc": 1000},
-				{"calor.ac": 500},
-				{"aquatim.ac": 200},
-				{"aquatim.ar": 250}
-			    ],
-			    
-			     "columns": 
-			     [
-				{"uuid": "p", "type":"input.divider" },
-				{"uuid": "ac", "type":"input.counter"},
-				
-				{"uuid": "e", "type": "output.manual"},
-				{"uuid": "inc", "type":"output.autosplit",
-						"invoices": ["calor.inc"],
-						"commons": {"percent": 15,"by": ["cpi"]},
-						"divided": {"by": ["s"]}
-				},
-				{"uuid":"ac","type":"output.autosplit",
-						"invoices": ["calor.ac","aquatim.ac"],
-						"counted": {"units": 99,"by": ["ac"]},
-						"divided": {"by": ["p"]}
-				},
-				{"uuid": "sal", "type":"output.autosplit",
-						"invoices": ["retim"],
-						"divided": {"by": ["p"]}
-				}
-			    ],
-				
-			    "asoc.lodgers": 
-			    [
-				{"uuid10": "10", "p": 3, "s": 55, "cpi": 5}
-			    ],
-			    
-			    "custom.inputs":
-			    [
-				{"output.col":"uuid", "lodger.row":"uuid", "p":0}
-			    ]
-			}
-		},
-	    
+  "sheets" :
+  [
+    { "2011.07":
+      { "invoices":
+        [
+          {"calor.inc": 1000},
+          {"calor.ac": 500},
+          {"aquatim.ac": 200},
+          {"aquatim.ar": 250}
+        ],
+
+        "columns":
+        [
+          {"id":"uuid1", "name":"p", "type":"input.divider" },
+          {"id":"uuid2", "name":"ac", "type":"input.counter"},
+
+          {"id":"uuid3", "name":"e", "type": "output.manual"},
+          {"id":"uuid4", "name":"inc", "type":"output.autosplit",
+                         "invoices": ["calor.inc"],
+                         "commons": {"percent": 15,"by": ["cpi"]},
+                         "divided": {"by": ["s"]}
+          },
+          {"id":"uuid5", "name":"ac","type":"output.autosplit",
+                         "invoices": ["calor.ac","aquatim.ac"],
+                         "counted": {"units": 99,"by": ["ac"]},
+                         "divided": {"by": ["p"]}
+          },
+          {"id":"uuid6", "name":"sal", "type":"output.autosplit",
+                         "invoices": ["retim"],
+                         "divided": {"by": ["p"]}
+          }
+        ],
+
+        "asoc.lodgers":
+        [
+          {"id":"uuid10", "name":"10", "p": 3, "s": 55, "cpi": 5}
+        ],
+
+        "custom.inputs":
+        [
+          {"output.col.id":"uuid", "lodger.row":"uuid", "p":0}
+        ]
+      }
+    },
+
 		{ "2011.08": 
-			{}
-		}
-    ],
+      {}
+    }
+  ],
     
 	
-     "NOTE": "DON'T EDIT NOR COPY UUIDs, THEY SHOULD BE GENERATED",
-      "NOTE": "even with UUIDs, col names still have to be unique in sheet scope;lodgers refer to them",
-      "NOTE": "reserved strings: col types names, col component names/params"
+  "NOTE": "DON'T EDIT NOR COPY UUIDs, THEY SHOULD BE GENERATED",
+  "NOTE": "even with UUIDs, col names still have to be unique in sheet scope;lodgers refer to them",
+  "NOTE": "reserved strings: col types names, col component names/params"
 }

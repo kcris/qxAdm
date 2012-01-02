@@ -70,12 +70,12 @@ MainWindow::MainWindow(QWidget *parent) :
     pModel->m_sheet.insertColumn(new OutputAutoSumColumn(pModel->m_sheet, ColId(), "restante"));
 
     OutputAutoSplitColumn* pCol = new OutputAutoSplitColumn(pModel->m_sheet, ColId(), "salubr");
+    pModel->m_sheet.insertColumn(pCol);
     pCol->addCommonsInput(pPers);   pCol->setCommonsPercent(0);
     pCol->addCountedInput(pCnt);    pCol->setCountedUnits(0);
     pCol->addDividedInput(pPers);
     pCol->addInvoice(new Invoice(352.46, "retim"));
     pCol->splitAmount();
-    pModel->m_sheet.insertColumn(pCol);
 
     pModel->m_sheet.insertColumn(new TotalColumn(pModel->m_sheet, ColId(), "TOTAL"));
 
