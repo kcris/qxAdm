@@ -37,14 +37,15 @@ Sheet::Sheet(const SheetData& data, ICellObserver* obs /*= NULL*/)
 void Sheet::load(const SheetData& data)
 {
   /* 1. add rows */
-  foreach(LodgerData lodg, data.lodgers)
+  foreach(const LodgerData & lodg, data.lodgers)
   {
     insertRow();
   }
 
 
   /* 2. add columns */
-  insertColumn(new StringColumn(*this, ColId(), "nume")); //special column: name always comes first
+  StringColumn* pNamesCol = new StringColumn(*this, ColId(), "nume");
+  insertColumn(pNamesCol); //special column: name always comes first
 
   InputDivColumn* pPers = new InputDivColumn(*this, ColId(), "p");
   insertColumn(pPers);
@@ -66,6 +67,12 @@ void Sheet::load(const SheetData& data)
 
 
   /* 3. fill rows: name, inputs */
+  int l = 0;
+  foreach(const LodgerData & lodg, data.lodgers)
+  {
+    pNamesCol->cellAt(l)->setData(lodg.name);
+    ++l;
+  }
 
 
   /* 4. customize inputs */

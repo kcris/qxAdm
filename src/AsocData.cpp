@@ -141,7 +141,7 @@ bool load(const QString & json, AsocData& asoc)
         lodger.inputValues.insert(inp, val.toDouble());
     }
 
-    sh.lodgers.insert(lodger.id, lodger);
+    sh.lodgers.append(lodger);
   }
 
   //TODO: all sheets + with right id
