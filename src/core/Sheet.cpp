@@ -37,32 +37,11 @@ Sheet::Sheet(const SheetData& data, ICellObserver* obs /*= NULL*/)
 void Sheet::load(const SheetData& data)
 {
   /* 1. add rows */
+  foreach(LodgerData lodg, data.lodgers)
+  {
+    insertRow();
+  }
 
-  //24 rows
-  insertRow();
-  insertRow();
-  insertRow();
-  insertRow();
-  insertRow();
-  insertRow();
-  insertRow();
-  insertRow();
-  insertRow();
-  insertRow();
-  insertRow();
-  insertRow();
-  insertRow();
-  insertRow();
-  insertRow();
-  insertRow();
-  insertRow();
-  insertRow();
-  insertRow();
-  insertRow();
-  insertRow();
-  insertRow();
-  insertRow();
-  insertRow();
 
   /* 2. add columns */
   insertColumn(new StringColumn(*this, ColId(), "nume")); //special column: name always comes first
@@ -86,10 +65,21 @@ void Sheet::load(const SheetData& data)
   insertColumn(new TotalColumn(*this, ColId(), "TOTAL")); //special column: total always comes last
 
 
-  /* 3. customize inputs */
+  /* 3. fill rows: name, inputs */
+
+
+  /* 4. customize inputs */
   //see InputColumn::setCustomInputValue
 }
 
+SheetData Sheet::save() const
+{
+  SheetData data;
+
+  //TODO
+
+  return data;
+}
 
 void Sheet::insertRow(const RowId& newRowId /*= RowId()*/, const RowId& rowId /*= RowId()*/)
 {

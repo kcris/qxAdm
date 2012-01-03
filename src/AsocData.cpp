@@ -5,7 +5,6 @@
 
 #include <QtCore/QVariant>
 #include <QtCore/QVariantMap>
-
 #include <QtCore/QFile>
 
 struct QVariantConvertException
@@ -39,6 +38,8 @@ bool load(const QString & json, AsocData& asoc)
     qFatal("An error occurred during parsing");
     return false;
   }
+
+  QList<QString> inputColumns;
 
   //header
   QVariantMap asocHeader  = root["asoc.header"].toMap();
@@ -90,6 +91,11 @@ bool load(const QString & json, AsocData& asoc)
       c.invoices.append(inv.toString());
     }
 
+    if (c.type.startsWith("input."))
+    {
+      inputColumns.append(c.name);
+    }
+
     QVariantMap commons = column["commons"].toMap();
     if (!commons.isEmpty())
     {
@@ -116,6 +122,29 @@ bool load(const QString & json, AsocData& asoc)
     sh.columns.insert(c.id, c);
   }
 
+  //asoc.lodgers
+  foreach (QVariant row, sheet["asoc.lodgers"].toList())
+  {
+    QVariantMap lodgerItem = row.toMap();
+
+    if (lodgerItem.isEmpty())
+      continue;
+
+    LodgerData lodger;
+    lodger.id = lodgerItem["id"].toString();
+    lodger.name = lodgerItem["name"].toString();
+
+    foreach(QString inp, inputColumns)
+    {
+      QVariant val = lodgerItem[inp];
+      if (!val.isNull())
+        lodger.inputValues.insert(inp, val.toDouble());
+    }
+
+    sh.lodgers.insert(lodger.id, lodger);
+  }
+
+  //TODO: all sheets + with right id
   asoc.sheets.insert("2011.07", sh);
 
   return ok;

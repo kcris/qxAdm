@@ -37,6 +37,7 @@ struct Sheet
 
   //TODO: load/save support
   void load(const SheetData& data);
+  SheetData save() const;
 
   void insertRow(const RowId& newRowId = RowId(), const RowId& rowId = RowId());
   void deleteRow(const RowId& rowId);

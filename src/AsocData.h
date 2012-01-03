@@ -10,8 +10,7 @@ struct LodgerData
 {
   QUuid id;
   QString name;
-
-  //TODO: add properties bag
+  QMap<QString, double> inputValues;
 };
 
 struct ColumnData
@@ -36,9 +35,7 @@ struct SheetData
   QMap<QUuid, ColumnData> columns;  //id -> ...
   QMap<QUuid, LodgerData> lodgers;  //id -> ...
 
-  //TODO: add
-  //asoc.lodgers
-  //custom.inputs
+  //TODO: add 'custom.inputs'
 };
 
 struct AsocData
