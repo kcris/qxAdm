@@ -43,7 +43,7 @@ void Sheet::load(const SheetData& data)
   }
 
 
-  /* 2. add columns */
+  /* 2. add input columns */
   StringColumn* pNamesCol = new StringColumn(*this, ColId(), "nume");
   insertColumn(pNamesCol); //special column: name always comes first
 
@@ -61,6 +61,21 @@ void Sheet::load(const SheetData& data)
 //  pAC->addComponent(pCnt2);
 //  insertColumn(pAC);
 
+  /* 3. fill inputs: names... */
+  int l = 0;
+  foreach(const LodgerData & lodg, data.lodgers)
+  {
+    pNamesCol->cellAt(l)->setData(lodg.name);
+
+    //input values:
+    pPers->cellAt(l)->setData(lodg.inputValues[pPers->getTitle()]);
+    pCnt1->cellAt(l)->setData(lodg.inputValues[pCnt1->getTitle()]);
+    pCnt2->cellAt(l)->setData(lodg.inputValues[pCnt2->getTitle()]);
+
+    ++l;
+  }
+
+  /* 4. add output columns */
   insertColumn(new OutputAutoSumColumn(*this, ColId(), "restante"));
 
   OutputAutoSplitColumn* pCol = new OutputAutoSplitColumn(*this, ColId(), "salubr");
@@ -78,17 +93,7 @@ void Sheet::load(const SheetData& data)
 
   insertColumn(new TotalColumn(*this, ColId(), "TOTAL")); //special column: total always comes last
 
-
-  /* 3. fill rows: name, inputs */
-  int l = 0;
-  foreach(const LodgerData & lodg, data.lodgers)
-  {
-    pNamesCol->cellAt(l)->setData(lodg.name);
-    ++l;
-  }
-
-
-  /* 4. customize inputs */
+  /* 5. customize inputs */
   //see InputColumn::setCustomInputValue
 }
 
