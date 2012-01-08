@@ -29,7 +29,7 @@ struct SplitComponent : public OutputColumn
 
   void addInputColumn(InputColumn*);
 
-  numeric_t setAmount(double amount);
+  numeric_t setAmount(const numeric_t & amount);
   numeric_t getAmount() const;
 
   virtual void update(const RowId & rowChanged) const; //override this to react as observer
@@ -38,7 +38,7 @@ struct SplitComponent : public OutputColumn
   numeric_t getUnitPrice() const;
 
 protected:
-  virtual void doSetAmount(numeric_t amount) = 0;
+  virtual void doSetAmount(const numeric_t & amount) = 0;
   numeric_t getInputsUnitsTotal() const;
 
 //protected:
@@ -59,7 +59,7 @@ struct SplitCommonsComponent : public SplitComponent
   void setPercent(double p) {m_percent = p;}
 
 protected:
-  virtual void doSetAmount(numeric_t amount);
+  virtual void doSetAmount(const numeric_t & amount);
 
 private:
   double m_percent;
@@ -73,7 +73,7 @@ struct SplitCountedComponent : public SplitComponent
   void setCountedUnits(double u) {m_countedUnits = u;}
 
 protected:
-  virtual void doSetAmount(numeric_t amount);
+  virtual void doSetAmount(const numeric_t & amount);
 
 private:
   double m_countedUnits;
@@ -85,7 +85,7 @@ struct SplitDividedComponent : public SplitComponent
   SplitDividedComponent(const Sheet& sheet, const OutputAutoSplitColumn & ownerCol);
 
 protected:
-  virtual void doSetAmount(numeric_t amount);
+  virtual void doSetAmount(const numeric_t & amount);
 };
 
 

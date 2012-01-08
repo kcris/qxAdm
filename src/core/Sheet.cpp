@@ -69,7 +69,7 @@ void Sheet::load(const SheetData& data)
   commons->setPercent(15);
   SplitCountedComponent* counted = new SplitCountedComponent(*this, *pCol);
   counted->addInputColumn(pCnt1);
-  counted->setCountedUnits(100);
+  counted->setCountedUnits(48);
   SplitDividedComponent* divided = new SplitDividedComponent(*this, *pCol);
   divided->addInputColumn(pNamesCol); //equal
   insertColumn(pCol);

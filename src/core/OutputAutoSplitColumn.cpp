@@ -65,9 +65,11 @@ numeric_t SplitComponent::getAmount() const
   return m_amount;
 }
 
-numeric_t SplitComponent::setAmount(numeric_t amount)
+numeric_t SplitComponent::setAmount(const numeric_t & amount)
 {
   doSetAmount(amount);
+
+  Q_ASSERT(getAmount() <= amount); //FIXME bug appears when: counted units < total units; 'counted' cols should consider price not amount
 
   m_pricePerUnit = getAmount() / getInputsUnitsTotal();
 
@@ -137,7 +139,7 @@ SplitCommonsComponent::SplitCommonsComponent(const Sheet& sheet, const OutputAut
   ownerCol.addSplitComponent(this);
 }
 
-void SplitCommonsComponent::doSetAmount(numeric_t amount)
+void SplitCommonsComponent::doSetAmount(const numeric_t & amount)
 {
   if (m_percent == 0.0)
     return;
@@ -159,7 +161,7 @@ SplitCountedComponent::SplitCountedComponent(const Sheet& sheet, const OutputAut
   ownerCol.addSplitComponent(this);
 }
 
-void SplitCountedComponent::doSetAmount(numeric_t amount)
+void SplitCountedComponent::doSetAmount(const numeric_t & amount)
 {
   if (m_countedUnits == 0.0)
     return;
@@ -182,7 +184,7 @@ SplitDividedComponent::SplitDividedComponent(const Sheet& sheet, const OutputAut
   ownerCol.addSplitComponent(this);
 }
 
-void SplitDividedComponent::doSetAmount(numeric_t amount)
+void SplitDividedComponent::doSetAmount(const numeric_t & amount)
 {
   Q_ASSERT(amount > 0.0 && !m_inputs.empty());
 
