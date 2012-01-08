@@ -28,6 +28,18 @@
 typedef double      numeric_t;
 typedef QVariant    variant_t;
 
+/* compare floating numbers using finite precision */
+inline bool compareNumeric(const numeric_t & n1, const numeric_t & n2)
+{
+  static const int f = 10; //precision factor - not all decimals are interesting
+
+  const int x1 = n1 * f;
+  const int x2 = n2 * f;
+
+  return x1 == x2;
+}
+//TODO: consider creating a class for numeric_t to avoid FP rounding issues?
+
 /**
  * using UUIDs as row/column ids
  *

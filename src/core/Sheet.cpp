@@ -66,10 +66,10 @@ void Sheet::load(const SheetData& data)
   OutputAutoSplitColumn* pCol = new OutputAutoSplitColumn(*this, ColId(), "salubr");
   SplitCommonsComponent* commons = new SplitCommonsComponent(*this, *pCol);
   commons->addInputColumn(pPers);
-  commons->setPercent(0);
+  commons->setPercent(15);
   SplitCountedComponent* counted = new SplitCountedComponent(*this, *pCol);
   counted->addInputColumn(pCnt1);
-  counted->setCountedUnits(0);
+  counted->setCountedUnits(100);
   SplitDividedComponent* divided = new SplitDividedComponent(*this, *pCol);
   divided->addInputColumn(pNamesCol); //equal
   insertColumn(pCol);

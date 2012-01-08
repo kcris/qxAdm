@@ -32,11 +32,8 @@ struct SplitComponent : public OutputColumn
   numeric_t setAmount(double amount);
   numeric_t getAmount() const;
 
-  numeric_t computeCellValue(const RowId& rowId) const;
-
   virtual void update(const RowId & rowChanged) const; //override this to react as observer
 
-private:
   numeric_t getRowInputUnits(const RowId& rowId) const;
   numeric_t getUnitPrice() const;
 
@@ -103,8 +100,6 @@ struct OutputAutoSplitColumn : public OutputColumn
   //amount is the total of all invoices
   numeric_t getAmount() const;
   void splitAmount();
-
-  numeric_t computeCellValue(const RowId& rowId) const;
 
   void addInvoice(Invoice* pInvoice);
   void addSplitComponent(SplitComponent* pComponent) const;

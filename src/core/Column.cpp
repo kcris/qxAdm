@@ -128,6 +128,18 @@ void Column::addComponent(Column *pComponent) const
   m_components.push_back(pComponent);
 }
 
+numeric_t Column::sumComponents(const RowId &rowId, const OutputColumn* pOutput) const
+{
+  numeric_t val = 0.0;
+
+  foreach(Column* pComponent, m_components)
+  {
+    val += pComponent->cellAt(rowId)->getValue(pOutput);
+  }
+
+  return val;
+}
+
 void Column::createCells()
 {
   Q_ASSERT(m_cells.size() == 0);
@@ -149,5 +161,3 @@ void Column::createCells()
 
   Q_ASSERT(m_cells.size() == nRows);
 }
-
-

@@ -29,7 +29,12 @@ struct AutomaticCell : public ICell
   virtual variant_t getData() const { Q_ASSERT(false); return getValue(NULL); }
 
   virtual bool isPartOfTotal() const {return true;}
-  virtual numeric_t getValue(const OutputColumn*) const { return static_cast<const SplitComponent&>(m_column).computeCellValue(m_rowId); }
+  virtual numeric_t getValue(const OutputColumn*) const
+  {
+    const SplitComponent& col = static_cast<const SplitComponent&>(m_column);
+
+    return col.getRowInputUnits(m_rowId) * col.getUnitPrice();
+  }
 };
 
 
@@ -72,7 +77,7 @@ numeric_t SplitComponent::setAmount(numeric_t amount)
     pCell->notify();
 
   const numeric_t & myAmount = getAmount();
-  Q_ASSERT(getTotalValue(this) == myAmount); //cells sum should match
+  Q_ASSERT(compareNumeric(getTotalValue(this), myAmount)); //cells sum should match
   return myAmount;
 }
 
@@ -107,12 +112,6 @@ numeric_t SplitComponent::getRowInputUnits(const RowId& rowId) const
 numeric_t SplitComponent::getUnitPrice() const
 {
   return m_pricePerUnit;
-}
-
-numeric_t SplitComponent::computeCellValue(const RowId& rowId) const
-{
-  const numeric_t & val = getRowInputUnits(rowId) * getUnitPrice();
-  return val;
 }
 
 void SplitComponent::update(const RowId & /*rowChanged*/) const
@@ -206,7 +205,10 @@ struct OutputAutoSplitCell : public ICell
   virtual variant_t getData() const { Q_ASSERT(false); return getValue(NULL); }
 
   virtual bool isPartOfTotal() const {return true;}
-  virtual numeric_t getValue(const OutputColumn*) const { return static_cast<const OutputAutoSplitColumn&>(m_column).computeCellValue(m_rowId); }
+  virtual numeric_t getValue(const OutputColumn* pOutputCol) const
+  {
+    return static_cast<const OutputAutoSplitColumn&>(m_column).sumComponents(m_rowId, pOutputCol);
+  }
 };
 
 
@@ -268,18 +270,5 @@ void OutputAutoSplitColumn::splitAmount()
 
   Q_ASSERT(amount == 0.0);
 
-  Q_ASSERT(getTotalValue(this) == getAmount()); //cells sum should match
-}
-
-numeric_t OutputAutoSplitColumn::computeCellValue(const RowId& rowId) const
-{
-  numeric_t val = 0.0;
-
-  foreach(Column* pComponent, m_components)
-  {
-    SplitComponent* pSplit = dynamic_cast<SplitComponent*>(pComponent);
-    val += pSplit->computeCellValue(rowId);
-  }
-
-  return val;
+  Q_ASSERT(compareNumeric(getTotalValue(this), getAmount())); //cells sum should match
 }

@@ -58,6 +58,9 @@ protected:
 
   void addComponent(Column* pComponent) const; //allow 'composite' columns
 
+public:
+  numeric_t sumComponents(const RowId &rowId, const OutputColumn* pOutput) const;
+
 protected:
   const Sheet& m_sheet;
   const ColId m_colId;
