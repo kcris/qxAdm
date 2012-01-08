@@ -21,19 +21,20 @@
 #include <QtCore/QUuid>
 #include <QtCore/QVariant>
 
-//numeric value for cell data
-typedef double      numeric_t;
-//typedef QString     string_t;
-typedef QVariant    variant_t;
+/*custom data types*/
+
 //typedef QUuid       uuid_t;
+//typedef QString     string_t;
+typedef double      numeric_t;
+typedef QVariant    variant_t;
 
 /**
-  * using UUIDs as row/column ids
-  *
-  * note: this is required since rows/columns have to be identified across sheets
-  *
-  * a simple row/column index is not usable for cross-sheet identification (however, a local index *is* usable inside one sheet)
-  */
+ * using UUIDs as row/column ids
+ *
+ * note: this is required since rows/columns have to be identified across sheets
+ *
+ * a simple row/column index is not usable for cross-sheet identification (however, a local index *is* usable inside one sheet)
+ */
 struct RowId : public QUuid
 {
   RowId() : QUuid() {}
@@ -48,9 +49,5 @@ struct ColId : public QUuid
 };
 
 //TODO: timeline sequencer (generates timeline; default=monthly)
-
-//TODO: observers
-//autosplits columns observe their inputs
-//total column observes all outputs
 
 #endif // COMMONS_H

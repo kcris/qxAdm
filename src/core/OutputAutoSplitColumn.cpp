@@ -192,12 +192,12 @@ void SplitDividedComponent::doSetAmount(numeric_t amount)
 /**
  * struct OutputAutoSplitCompositeColumn
  */
-OutputAutoSplitCompositeColumn::OutputAutoSplitCompositeColumn(const Sheet& sheet, const ColId & colId, const QString & title)
+CompositeAutoSplitOutputColumn::CompositeAutoSplitOutputColumn(const Sheet& sheet, const ColId & colId, const QString & title)
   : OutputColumn(sheet, colId, title)
 {
 }
 
-OutputAutoSplitCompositeColumn::~OutputAutoSplitCompositeColumn()
+CompositeAutoSplitOutputColumn::~CompositeAutoSplitOutputColumn()
 {
   Invoice* pInvoice = NULL;
   foreach(pInvoice, m_invoices)
@@ -209,17 +209,17 @@ OutputAutoSplitCompositeColumn::~OutputAutoSplitCompositeColumn()
 }
 
 
-void OutputAutoSplitCompositeColumn::addInvoice(Invoice* pInvoice)
+void CompositeAutoSplitOutputColumn::addInvoice(Invoice* pInvoice)
 {
   m_invoices.push_back(pInvoice);
 }
 
-void OutputAutoSplitCompositeColumn::addComponent(SplitComponent* pComponent)
+void CompositeAutoSplitOutputColumn::addComponent(SplitComponent* pComponent)
 {
   m_components.push_back(pComponent);
 }
 
-numeric_t OutputAutoSplitCompositeColumn::getAmount() const
+numeric_t CompositeAutoSplitOutputColumn::getAmount() const
 {
   numeric_t amount = 0.0;
 
@@ -230,7 +230,7 @@ numeric_t OutputAutoSplitCompositeColumn::getAmount() const
   return amount;
 }
 
-void OutputAutoSplitCompositeColumn::splitAmount()
+void CompositeAutoSplitOutputColumn::splitAmount()
 {
   numeric_t amount = getAmount();
 
@@ -243,7 +243,7 @@ void OutputAutoSplitCompositeColumn::splitAmount()
   Q_ASSERT(getTotalValue(this) == getAmount()); //cells sum should match
 }
 
-numeric_t OutputAutoSplitCompositeColumn::computeCellValue(const RowId& rowId) const
+numeric_t CompositeAutoSplitOutputColumn::computeCellValue(const RowId& rowId) const
 {
   numeric_t val = 0.0;
 
@@ -259,7 +259,7 @@ numeric_t OutputAutoSplitCompositeColumn::computeCellValue(const RowId& rowId) c
 
 struct AutoSplitCell : public ICell
 {
-  AutoSplitCell(const OutputAutoSplitCompositeColumn& col, const RowId& rowId) : ICell(col, rowId) {}
+  AutoSplitCell(const CompositeAutoSplitOutputColumn& col, const RowId& rowId) : ICell(col, rowId) {}
 
   virtual bool isEditable() const {return false;}
   virtual bool isNumeric() const {return true;}
@@ -267,14 +267,14 @@ struct AutoSplitCell : public ICell
   virtual variant_t getData() const { Q_ASSERT(false); return getValue(NULL); }
 
   virtual bool isPartOfTotal() const {return true;}
-  virtual numeric_t getValue(const OutputColumn*) const { return static_cast<const OutputAutoSplitCompositeColumn&>(m_column).computeCellValue(m_rowId); }
+  virtual numeric_t getValue(const OutputColumn*) const { return static_cast<const CompositeAutoSplitOutputColumn&>(m_column).computeCellValue(m_rowId); }
 };
 
 /**
  * struct OutputAutoSplitColumn
  */
 OutputAutoSplitColumn::OutputAutoSplitColumn(const Sheet& sheet, const ColId & colId, const QString & title)
-  : OutputAutoSplitCompositeColumn(sheet, colId, title)
+  : CompositeAutoSplitOutputColumn(sheet, colId, title)
   , m_commons(new SplitCommonsComponent(sheet, *this))
   , m_counted(new SplitCountedComponent(sheet, *this))
   , m_divided(new SplitDividedComponent(sheet, *this))

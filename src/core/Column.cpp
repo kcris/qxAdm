@@ -176,3 +176,49 @@ OutputColumn::OutputColumn(const Sheet& sheet, const ColId & colId, const QStrin
   : Column(sheet, colId, title)
 {
 }
+
+
+
+
+
+struct CompositeCell : public ICell
+{
+  CompositeCell(const Column& col, const RowId& rowId) : ICell(col, rowId) {}
+
+  virtual bool isEditable() const {return false;}
+  virtual bool isNumeric() const {return true;}
+  virtual void setData(const variant_t & /*v*/) { Q_ASSERT(false); }
+  virtual variant_t getData() const { Q_ASSERT(false); return getValue(NULL);}
+
+  virtual bool isPartOfTotal() const {return false;}
+  virtual numeric_t getValue(const OutputColumn* pColumn) const {return m_value;}
+
+  //TODO: observe childs/components and auto-recompute m_value as total of childs values
+private:
+  numeric_t m_value;
+};
+
+/**
+ * composite column (auto sums child columns)
+ */
+CompositeColumn::CompositeColumn(const Sheet &sheet, const ColId &colId, const QString &title)
+  : Column(sheet, colId, title)
+{
+}
+
+CompositeColumn::~CompositeColumn()
+{
+  Column* pComponent = NULL;
+  foreach(pComponent, m_components)
+    delete pComponent;
+}
+
+void CompositeColumn::addComponent(Column *pComponent)
+{
+  m_components.push_back(pComponent);
+}
+
+ICell *CompositeColumn::createCell(const RowId &rowId, int index) const
+{
+  return new CompositeCell(*this, rowId);
+}

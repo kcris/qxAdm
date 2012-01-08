@@ -55,11 +55,15 @@ void Sheet::load(const SheetData& data)
 
   insertColumn(new OutputAutoSumColumn(*this, ColId(), "restante"));
 
+  CompositeColumn* pAC = new CompositeColumn(*this, ColId(), "ac"); //sum of ac1 and ac2
+  insertColumn(pAC);
+
+
   OutputAutoSplitColumn* pCol = new OutputAutoSplitColumn(*this, ColId(), "salubr");
   insertColumn(pCol);
   pCol->addCommonsInput(pPers);   pCol->setCommonsPercent(0);
   pCol->addCountedInput(pCnt);    pCol->setCountedUnits(0);
-  pCol->addDividedInput(pPers);
+  pCol->addDividedInput(pNamesCol); //divide equally (all have div=1)
   pCol->addInvoice(new Invoice(352.46, "retim"));
   pCol->splitAmount();
 

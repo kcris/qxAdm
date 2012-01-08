@@ -93,10 +93,15 @@ protected:
 };
 
 
-struct OutputAutoSplitCompositeColumn : public OutputColumn
+//
+//composite output - a generic container of auto-split components
+//
+//see also: CompositeColumn - cleanup??? remove CompositeAutoSplitOutputColumn?
+//
+struct CompositeAutoSplitOutputColumn : public OutputColumn
 {
-  OutputAutoSplitCompositeColumn(const Sheet& sheet, const ColId & colId, const QString & title);
-  virtual ~OutputAutoSplitCompositeColumn();
+  CompositeAutoSplitOutputColumn(const Sheet& sheet, const ColId & colId, const QString & title);
+  virtual ~CompositeAutoSplitOutputColumn();
 
   numeric_t getAmount() const;
   void splitAmount();
@@ -113,9 +118,8 @@ protected:
 };
 
 
-//automatic output (composite column)
-//can be a generic container of components
-struct OutputAutoSplitColumn : public OutputAutoSplitCompositeColumn
+//typical automatic output
+struct OutputAutoSplitColumn : public CompositeAutoSplitOutputColumn
 {
   OutputAutoSplitColumn(const Sheet& sheet, const ColId & colId, const QString & title);
 

@@ -27,7 +27,7 @@ struct StringCell : public ICell
   virtual variant_t getData() const {return m_string;}
 
   virtual bool isPartOfTotal() const {return false;}
-  virtual numeric_t getValue(const OutputColumn*) const {return 0;}
+  virtual numeric_t getValue(const OutputColumn*) const {return 1;} //zero?
 
 private:
   QString m_string;
@@ -52,8 +52,8 @@ struct TotalCell : public ICell
 
   virtual bool isEditable() const {return false;}
   virtual bool isNumeric() const {return true;}
-  virtual void setData(const variant_t & /*v*/) {Q_ASSERT(false);}
-  virtual variant_t getData() const {Q_ASSERT(false);return getValue(NULL);}
+  virtual void setData(const variant_t & /*v*/) { Q_ASSERT(false); }
+  virtual variant_t getData() const { Q_ASSERT(false);return getValue(NULL); }
 
   virtual bool isPartOfTotal() const {return false;}
   virtual numeric_t getValue(const OutputColumn*) const { return m_column.sheet().totalRowValue(m_rowId); } //auto calculate row total

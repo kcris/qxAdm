@@ -89,4 +89,21 @@ struct OutputColumn : public Column
   OutputColumn(const Sheet& sheet, const ColId & colId, const QString & title);
 };
 
+//TODO: generic composite columns - e.g for compositing inputs (for outputs we already have CompositeAutoSplitOutputColumn)
+
+struct CompositeColumn : public Column
+{
+  CompositeColumn(const Sheet& sheet, const ColId & colId, const QString & title);
+  virtual ~CompositeColumn();
+
+protected:
+  virtual ICell* createCell(const RowId& rowId, int index) const;
+
+protected:
+  void addComponent(Column* pComponent);
+
+protected:
+  QList<Column*> m_components;
+};
+
 #endif // COLUMN_H
