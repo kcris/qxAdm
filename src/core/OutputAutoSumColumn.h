@@ -16,7 +16,7 @@
 #ifndef OUTPUTAUTOSUMCOLUMN_H
 #define OUTPUTAUTOSUMCOLUMN_H
 
-#include "Column.h"
+#include "BasicColumns.h"
 
 struct ICell;
 

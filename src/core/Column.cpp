@@ -25,6 +25,13 @@ Column::Column(const Sheet& sheet, const ColId & colId /*= ColId()*/, const QStr
 {
 }
 
+Column::~Column()
+{
+  Column* pComponent = NULL;
+  foreach(pComponent, m_components)
+    delete pComponent;
+}
+
 double Column::getTotalData() const
 {
   double total = 0.0;
@@ -116,6 +123,10 @@ int Column::findRow(const RowId& rowId) const
   return -1;
 }
 
+void Column::addComponent(Column *pComponent) const
+{
+  m_components.push_back(pComponent);
+}
 
 void Column::createCells()
 {
@@ -140,85 +151,3 @@ void Column::createCells()
 }
 
 
-
-/**
- * base class for all inputs/coefficients columns
- */
-InputColumn::InputColumn(const Sheet& sheet, const ColId & colId, const QString & title)
-  : Column(sheet, colId, title)
-{
-}
-
-numeric_t InputColumn::getInputValue(const numeric_t & referenceValue, const OutputColumn * pColumn, const RowId & forRow) const
-{
-  numeric_t value = referenceValue;
-
-  if (pColumn)
-  {
-    //TODO: search in custom values
-  }
-
-  return value;
-}
-
-void InputColumn::setCustomInputValue(const OutputColumn * pColumn, const RowId & forRow)
-{
-  //store a map of custom values (per row, per output column)
-}
-
-
-
-
-/**
- * base class for all outputs/amounts columns
- */
-OutputColumn::OutputColumn(const Sheet& sheet, const ColId & colId, const QString & title)
-  : Column(sheet, colId, title)
-{
-}
-
-
-
-
-
-struct CompositeCell : public ICell
-{
-  CompositeCell(const Column& col, const RowId& rowId) : ICell(col, rowId) {}
-
-  virtual bool isEditable() const {return false;}
-  virtual bool isNumeric() const {return true;}
-  virtual void setData(const variant_t & /*v*/) { Q_ASSERT(false); }
-  virtual variant_t getData() const { Q_ASSERT(false); return getValue(NULL);}
-
-  virtual bool isPartOfTotal() const {return false;}
-  virtual numeric_t getValue(const OutputColumn* pColumn) const {return m_value;}
-
-  //TODO: observe childs/components and auto-recompute m_value as total of childs values
-private:
-  numeric_t m_value;
-};
-
-/**
- * composite column (auto sums child columns)
- */
-CompositeColumn::CompositeColumn(const Sheet &sheet, const ColId &colId, const QString &title)
-  : Column(sheet, colId, title)
-{
-}
-
-CompositeColumn::~CompositeColumn()
-{
-  Column* pComponent = NULL;
-  foreach(pComponent, m_components)
-    delete pComponent;
-}
-
-void CompositeColumn::addComponent(Column *pComponent)
-{
-  m_components.push_back(pComponent);
-}
-
-ICell *CompositeColumn::createCell(const RowId &rowId, int index) const
-{
-  return new CompositeCell(*this, rowId);
-}

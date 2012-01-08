@@ -50,20 +50,29 @@ void Sheet::load(const SheetData& data)
   InputDivColumn* pPers = new InputDivColumn(*this, ColId(), "p");
   insertColumn(pPers);
 
-  InputCntColumn* pCnt = new InputCntColumn(*this, ColId(), "ac1");
-  insertColumn(pCnt);
+  InputCntColumn* pCnt1 = new InputCntColumn(*this, ColId(), "ac1");
+  insertColumn(pCnt1);
+
+  InputCntColumn* pCnt2 = new InputCntColumn(*this, ColId(), "ac2");
+  insertColumn(pCnt2);
+
+//  InputColumn* pAC = new InputColumn(*this, ColId(), "ac"); //composite: sum of ac1 and ac2
+//  pAC->addComponent(pCnt1);
+//  pAC->addComponent(pCnt2);
+//  insertColumn(pAC);
 
   insertColumn(new OutputAutoSumColumn(*this, ColId(), "restante"));
 
-  CompositeColumn* pAC = new CompositeColumn(*this, ColId(), "ac"); //sum of ac1 and ac2
-  insertColumn(pAC);
-
-
   OutputAutoSplitColumn* pCol = new OutputAutoSplitColumn(*this, ColId(), "salubr");
+  SplitCommonsComponent* commons = new SplitCommonsComponent(*this, *pCol);
+  commons->addInputColumn(pPers);
+  commons->setPercent(0);
+  SplitCountedComponent* counted = new SplitCountedComponent(*this, *pCol);
+  counted->addInputColumn(pCnt1);
+  counted->setCountedUnits(0);
+  SplitDividedComponent* divided = new SplitDividedComponent(*this, *pCol);
+  divided->addInputColumn(pNamesCol); //equal
   insertColumn(pCol);
-  pCol->addCommonsInput(pPers);   pCol->setCommonsPercent(0);
-  pCol->addCountedInput(pCnt);    pCol->setCountedUnits(0);
-  pCol->addDividedInput(pNamesCol); //divide equally (all have div=1)
   pCol->addInvoice(new Invoice(352.46, "retim"));
   pCol->splitAmount();
 

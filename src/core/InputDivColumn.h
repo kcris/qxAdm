@@ -16,7 +16,7 @@
 #ifndef INPUTDIVCOLUMN_H
 #define INPUTDIVCOLUMN_H
 
-#include "Column.h"
+#include "BasicColumns.h"
 
 struct ICell;
 

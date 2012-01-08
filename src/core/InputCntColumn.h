@@ -16,7 +16,7 @@
 #ifndef INPUTCNTCOLUMN_H
 #define INPUTCNTCOLUMN_H
 
-#include "Column.h"
+#include "BasicColumns.h"
 
 struct ICell;
 

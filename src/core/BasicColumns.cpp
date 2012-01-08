@@ -17,6 +17,45 @@
 #include "BasicColumns.h"
 #include "Sheet.h"
 
+
+/**
+ * base class for all inputs/coefficients columns
+ */
+InputColumn::InputColumn(const Sheet& sheet, const ColId & colId, const QString & title)
+  : Column(sheet, colId, title)
+{
+}
+
+numeric_t InputColumn::getInputValue(const numeric_t & referenceValue, const OutputColumn * pColumn, const RowId & forRow) const
+{
+  numeric_t value = referenceValue;
+
+  if (pColumn)
+  {
+    //TODO: search in custom values
+  }
+
+  return value;
+}
+
+void InputColumn::setCustomInputValue(const OutputColumn * pColumn, const RowId & forRow)
+{
+  //store a map of custom values (per row, per output column)
+}
+
+
+
+
+/**
+ * base class for all outputs/amounts columns
+ */
+OutputColumn::OutputColumn(const Sheet& sheet, const ColId & colId, const QString & title)
+  : Column(sheet, colId, title)
+{
+}
+
+
+
 struct StringCell : public ICell
 {
   StringCell(const Column& col, const RowId& rowId) : ICell(col, rowId) {}
@@ -69,3 +108,6 @@ ICell* TotalColumn::createCell(const RowId& rowId, int index) const
 {
   return new TotalCell(*this, rowId);
 }
+
+
+

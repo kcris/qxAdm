@@ -16,7 +16,7 @@
 #ifndef OUTPUTAUTOSPLITCOLUMN_H
 #define OUTPUTAUTOSPLITCOLUMN_H
 
-#include "Column.h"
+#include "BasicColumns.h"
 
 class Invoice;
 struct ICell;
@@ -55,7 +55,6 @@ protected:
   const OutputAutoSplitColumn & m_ownerCol;
 };
 
-
 struct SplitCommonsComponent : public SplitComponent
 {
   SplitCommonsComponent(const Sheet& sheet, const OutputAutoSplitColumn & ownerCol);
@@ -66,7 +65,7 @@ protected:
   virtual void doSetAmount(numeric_t amount);
 
 private:
-  int m_percent;
+  double m_percent;
 };
 
 
@@ -94,47 +93,27 @@ protected:
 
 
 //
-//composite output - a generic container of auto-split components
+//auto-split output - composite of auto-split components
 //
-//see also: CompositeColumn - cleanup??? remove CompositeAutoSplitOutputColumn?
-//
-struct CompositeAutoSplitOutputColumn : public OutputColumn
+struct OutputAutoSplitColumn : public OutputColumn
 {
-  CompositeAutoSplitOutputColumn(const Sheet& sheet, const ColId & colId, const QString & title);
-  virtual ~CompositeAutoSplitOutputColumn();
+  OutputAutoSplitColumn(const Sheet& sheet, const ColId & colId, const QString & title);
+  virtual ~OutputAutoSplitColumn();
 
+  //amount is the total of all invoices
   numeric_t getAmount() const;
   void splitAmount();
 
   numeric_t computeCellValue(const RowId& rowId) const;
 
   void addInvoice(Invoice* pInvoice);
-protected:
-  void addComponent(SplitComponent* pComponent);
+  void addSplitComponent(SplitComponent* pComponent) const;
 
-protected:
-  QList<Invoice*> m_invoices; //generates total amount to split
-  QList<SplitComponent*> m_components;
-};
-
-
-//typical automatic output
-struct OutputAutoSplitColumn : public CompositeAutoSplitOutputColumn
-{
-  OutputAutoSplitColumn(const Sheet& sheet, const ColId & colId, const QString & title);
-
-  void setCommonsPercent(double p) {m_commons->setPercent(p);}
-  void setCountedUnits(double u) {m_counted->setCountedUnits(u);}
-
-  void addCommonsInput(InputColumn* pInputCol) {m_commons->addInputColumn(pInputCol);}
-  void addCountedInput(InputColumn* pInputCol) {m_counted->addInputColumn(pInputCol);}
-  void addDividedInput(InputColumn* pInputCol) {m_divided->addInputColumn(pInputCol);}
 protected:
   virtual ICell* createCell(const RowId& rowId, int index) const;
+
 private:
-  SplitCommonsComponent* m_commons;
-  SplitCountedComponent* m_counted;
-  SplitDividedComponent* m_divided;
+  QList<Invoice*> m_invoices; //generates total amount to split
 };
 
 #endif // OUTPUTAUTOSPLITCOLUMN_H
