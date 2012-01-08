@@ -18,6 +18,6 @@ Steps to version 1.0
 0.6 print + preview + export pdf;  edit/print modes
 0.7 backreferences + timeline
 0.8 custom/overridden inputs
-0.9 validation + colors + detailed calculus
+0.9 validation + colors + detailed calculus + precision issues
 
 ideeas: payed flags, cash register, receipts, online/server, plugins/scriptable support
