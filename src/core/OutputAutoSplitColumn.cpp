@@ -69,8 +69,6 @@ numeric_t SplitComponent::setAmount(const numeric_t & amount)
 {
   doSetAmount(amount);
 
-  //Q_ASSERT(getAmount() <= amount); //FIXME bug appears when: counted units < total units; 'counted' cols should consider price not amount
-
   m_pricePerUnit = getAmount() / getInputsUnitsTotal();
 
   //notify that our cells were 'recomputed'
