@@ -82,44 +82,44 @@ bool load(const QString & json, AsocData& asoc)
     if (column.isEmpty())
       continue;
 
-    ColumnData c;
-    c.id = column["id"].toString();
-    c.name = column["name"].toString();
-    c.type = column["type"].toString();
+    ColumnData cd;
+    cd.id = column["id"].toString();
+    cd.name = column["name"].toString();
+    cd.type = column["type"].toString();
     foreach (QVariant inv, column["invoices"].toList())
     {
-      c.invoices.append(inv.toString());
+      cd.invoices.append(inv.toString());
     }
 
-    if (c.type.startsWith("input."))
+    if (cd.type.startsWith("input."))
     {
-      inputColumns.append(c.name);
+      inputColumns.append(cd.name);
     }
 
     QVariantMap commons = column["commons"].toMap();
     if (!commons.isEmpty())
     {
-      c.commonsPercent = commons["percent"].toDouble();
-      foreach (QVariant byCom, commons["by"].toList())
-        c.commonsBy.append(byCom.toString());
+      cd.commonsPercent = commons["percent"].toDouble();
+      foreach (QVariant by, commons["by"].toList())
+        cd.commonsBy.append(by.toString());
     }
 
     QVariantMap counted = column["counted"].toMap();
     if (!counted.isEmpty())
     {
-      c.countedUnits = counted["units"].toDouble();
-      foreach (QVariant byCnt, counted["by"].toList())
-        c.countedBy.append(byCnt.toString());
+      cd.countedUnits = counted["units"].toDouble();
+      foreach (QVariant by, counted["by"].toList())
+        cd.countedBy.append(by.toString());
     }
 
     QVariantMap divided = column["divided"].toMap();
     if (!divided.isEmpty())
     {
-      foreach (QVariant byDiv, divided["by"].toList())
-        c.countedBy.append(byDiv.toString());
+      foreach (QVariant by, divided["by"].toList())
+        cd.dividedBy.append(by.toString());
     }
 
-    sh.columns.insert(c.id, c);
+    sh.columns.insert(cd.id, cd); //WTF: inserted columndata is bad/altered!!
   }
 
   //asoc.lodgers
@@ -149,6 +149,19 @@ bool load(const QString & json, AsocData& asoc)
 
   return ok;
 }
+
+
+InvoiceData::InvoiceData()
+  : amount(0)
+{
+}
+
+ColumnData::ColumnData()
+  : commonsPercent(0)
+  , countedUnits(0)
+{
+}
+
 
 bool AsocData::load(const QString &jsonFilename)
 {

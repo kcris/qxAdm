@@ -36,10 +36,14 @@ Sheet::Sheet(const SheetData& data, ICellObserver* obs /*= NULL*/)
 
 void Sheet::load(const SheetData& data)
 {
+  m_rows.clear();
+  m_columns.clear();
+
+
   /* 1. add rows */
   foreach(const LodgerData & lodg, data.lodgers)
   {
-    insertRow();
+    insertRow(lodg.id);
   }
 
 
@@ -47,14 +51,23 @@ void Sheet::load(const SheetData& data)
   StringColumn* pNamesCol = new StringColumn(*this, ColId(), "nume");
   insertColumn(pNamesCol); //special column: name always comes first
 
-  InputDivColumn* pPers = new InputDivColumn(*this, ColId(), "p");
-  insertColumn(pPers);
+  foreach(const ColumnData & col, data.columns)
+  {
+    if (col.type.startsWith("input."))
+    {
+      Column* pCol = createColumn(col, data);
+      insertColumn(pCol);
+    }
+  }
 
-  InputCntColumn* pCnt1 = new InputCntColumn(*this, ColId(), "ac1");
-  insertColumn(pCnt1);
+//  InputDivColumn* pPers = new InputDivColumn(*this, ColId(), "p");
+//  insertColumn(pPers);
 
-  InputCntColumn* pCnt2 = new InputCntColumn(*this, ColId(), "ac2");
-  insertColumn(pCnt2);
+//  InputCntColumn* pCnt1 = new InputCntColumn(*this, ColId(), "ac1");
+//  insertColumn(pCnt1);
+
+//  InputCntColumn* pCnt2 = new InputCntColumn(*this, ColId(), "ac2");
+//  insertColumn(pCnt2);
 
 //  InputColumn* pAC = new InputColumn(*this, ColId(), "ac"); //composite: sum of ac1 and ac2
 //  pAC->addComponent(pCnt1);
@@ -62,34 +75,53 @@ void Sheet::load(const SheetData& data)
 //  insertColumn(pAC);
 
   /* 3. fill inputs: names... */
-  int l = 0;
+  int l = 0; //rows
   foreach(const LodgerData & lodg, data.lodgers)
   {
     pNamesCol->cellAt(l)->setData(lodg.name);
 
     //input values:
-    pPers->cellAt(l)->setData(lodg.inputValues[pPers->getTitle()]);
-    pCnt1->cellAt(l)->setData(lodg.inputValues[pCnt1->getTitle()]);
-    pCnt2->cellAt(l)->setData(lodg.inputValues[pCnt2->getTitle()]);
+    for(int c = 1, n = m_columns.size(); c<n; ++c)
+    {
+      InputColumn* pInputCol = dynamic_cast<InputColumn*>(m_columns[c]);
+      if (pInputCol)
+      {
+        const numeric_t & val = lodg.inputValues[pInputCol->getTitle()];
+
+        pInputCol->cellAt(l)->setData(val);
+      }
+    }
+//    pPers->cellAt(l)->setData(lodg.inputValues[pPers->getTitle()]);
+//    pCnt1->cellAt(l)->setData(lodg.inputValues[pCnt1->getTitle()]);
+//    pCnt2->cellAt(l)->setData(lodg.inputValues[pCnt2->getTitle()]);
 
     ++l;
   }
 
   /* 4. add output columns */
-  insertColumn(new OutputAutoSumColumn(*this, ColId(), "restante"));
+  foreach(const ColumnData & col, data.columns)
+  {
+    if (col.type.startsWith("output."))
+    {
+      Column* pCol = createColumn(col, data);
+      insertColumn(pCol);
+    }
+  }
 
-  OutputAutoSplitColumn* pCol = new OutputAutoSplitColumn(*this, ColId(), "salubr");
-  SplitCommonsComponent* commons = new SplitCommonsComponent(*this, *pCol);
-  commons->addInputColumn(pPers);
-  commons->setPercent(15);
-  SplitCountedComponent* counted = new SplitCountedComponent(*this, *pCol);
-  counted->addInputColumn(pCnt1);
-  counted->setCountedUnits(48);
-  SplitDividedComponent* divided = new SplitDividedComponent(*this, *pCol);
-  divided->addInputColumn(pNamesCol); //equal
-  insertColumn(pCol);
-  pCol->addInvoice(new Invoice(352.46, "retim"));
-  pCol->splitAmount();
+//  insertColumn(new OutputAutoSumColumn(*this, ColId(), "restante"));
+
+//  OutputAutoSplitColumn* pCol = new OutputAutoSplitColumn(*this, ColId(), "salubr");
+//  SplitCommonsComponent* commons = new SplitCommonsComponent(*this, *pCol);
+//  commons->addInputColumn(pPers);
+//  commons->setPercent(15);
+//  SplitCountedComponent* counted = new SplitCountedComponent(*this, *pCol);
+//  counted->addInputColumn(pCnt1);
+//  counted->setCountedUnits(48);
+//  SplitDividedComponent* divided = new SplitDividedComponent(*this, *pCol);
+//  divided->addInputColumn(pNamesCol); //equal
+//  insertColumn(pCol);
+//  pCol->addInvoice(new Invoice(352.46, "retim"));
+//  pCol->splitAmount();
 
   insertColumn(new TotalColumn(*this, ColId(), "TOTAL")); //special column: total always comes last
 
@@ -195,6 +227,80 @@ void Sheet::update(const RowId & rowId, const ColId & colId) const
 
     m_pObserver->update(rowIndex, colIndex);
   }
+}
+
+Column *Sheet::createColumn(const ColumnData &col, const SheetData &data)
+{
+  const QString & title = col.name;
+  const QString & type = col.type;
+
+  if (type == "input.divider")
+  {
+    return new InputDivColumn(*this, col.id, title);
+  }
+  if (type == "input.counter")
+  {
+    return new InputCntColumn(*this, col.id, title);
+  }
+  if (type == "output.manual")
+  {
+    return new OutputAutoSumColumn(*this, col.id, title);
+  }
+  if (type == "output.autosplit")
+  {
+    OutputAutoSplitColumn* pCol = new OutputAutoSplitColumn(*this, col.id, title);
+
+    //TODO: configure splits
+    if (!col.commonsBy.empty())
+    {
+      SplitCommonsComponent* commons = new SplitCommonsComponent(*this, *pCol);
+      foreach(const QString & title, col.commonsBy)
+        commons->addInputColumn(findInput(title));
+      commons->setPercent(col.commonsPercent);
+    }
+
+    if (!col.countedBy.empty())
+    {
+      SplitCountedComponent* counted = new SplitCountedComponent(*this, *pCol);
+      foreach(const QString & title, col.countedBy)
+        counted->addInputColumn(findInput(title));
+      counted->setCountedUnits(col.countedUnits);
+    }
+
+    if (!col.dividedBy.empty())
+    {
+      SplitDividedComponent* divided = new SplitDividedComponent(*this, *pCol);
+      foreach(const QString & title, col.dividedBy)
+        divided->addInputColumn(findInput(title));
+    }
+
+    insertColumn(pCol);
+
+    foreach(QString inv, col.invoices)
+    {
+      numeric_t amount = data.invoices[inv];
+
+      pCol->addInvoice(new Invoice(amount, inv)); //TODO: ref invoices
+    }
+
+    pCol->splitAmount();
+    return pCol;
+  }
+
+  Q_ASSERT(false);
+  return NULL;
+}
+
+const InputColumn *Sheet::findInput(const QString & colTitle) const
+{
+  const Column* pColumn = NULL;
+  foreach(pColumn, m_columns)
+    if (pColumn->getTitle() == colTitle)
+      break;
+
+  Q_ASSERT(pColumn);
+
+  return dynamic_cast<const InputColumn*>(pColumn);
 }
 
 

@@ -27,7 +27,7 @@ struct SplitComponent : public OutputColumn
 {
   SplitComponent(const Sheet& sheet, const QString & suffix, const OutputAutoSplitColumn & ownerCol);
 
-  void addInputColumn(InputColumn*);
+  void addInputColumn(const InputColumn*);
 
   numeric_t setAmount(const numeric_t & amount);
   numeric_t getAmount() const;
@@ -48,7 +48,7 @@ public:
 protected:
   numeric_t m_amount;
   mutable numeric_t m_pricePerUnit;
-  QList<InputColumn*> m_inputs;
+  QList<const InputColumn*> m_inputs;
   const OutputAutoSplitColumn & m_ownerCol;
 };
 

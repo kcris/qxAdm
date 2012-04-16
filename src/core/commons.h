@@ -36,7 +36,7 @@ inline bool compareNumeric(const numeric_t & n1, const numeric_t & n2)
   const int x1 = n1 * f;
   const int x2 = n2 * f;
 
-  return x1 == x2;
+  return abs(x1-x2) <= 1;
 }
 //TODO: consider creating a class for numeric_t to avoid FP rounding issues?
 

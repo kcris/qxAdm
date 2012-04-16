@@ -49,10 +49,10 @@ SplitComponent::SplitComponent(const Sheet& sheet, const QString & suffix, const
 {
 }
 
-void SplitComponent::addInputColumn(InputColumn* pInputCol)
+void SplitComponent::addInputColumn(const InputColumn* pInputCol)
 {
   m_inputs.push_back(pInputCol);
-  pInputCol->addObserver(this);
+  const_cast<InputColumn*>(pInputCol)->addObserver(this); //obs array should be mutable?
 }
 
 ICell* SplitComponent::createCell(const RowId& rowId, int index) const
@@ -85,7 +85,7 @@ numeric_t SplitComponent::getInputsUnitsTotal() const
 {
   numeric_t totalInputsUnits = 0.0;
 
-  InputColumn* pInputCol = NULL;
+  const InputColumn* pInputCol = NULL;
   foreach(pInputCol, m_inputs)
     totalInputsUnits += pInputCol->getTotalValue(this);
 
@@ -97,7 +97,7 @@ numeric_t SplitComponent::getRowInputUnits(const RowId& rowId) const
   numeric_t units = 0.0;
 
 
-  InputColumn* pInputCol = NULL;
+  const InputColumn* pInputCol = NULL;
   foreach(pInputCol, m_inputs)
   {
     ICell* pCell = pInputCol->cellAt(rowId);

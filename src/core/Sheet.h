@@ -21,6 +21,7 @@
 #include "commons.h"
 #include "Column.h"
 #include "AsocData.h"
+#include "BasicColumns.h"
 
 struct ICellObserver
 {
@@ -55,6 +56,9 @@ struct Sheet
 
   void update(const RowId & rowId, const ColId & colId) const;
 
+  Column* createColumn(const ColumnData &col, const SheetData &data);
+
+  const InputColumn* findInput(const QString & colTitle) const;
 private:
   int findRow(const RowId& rowId) const;
   int findCol(const ColId& colId) const;

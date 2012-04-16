@@ -29,10 +29,9 @@ struct Column
 
   const ColId & id() const {return m_colId;}
   const Sheet & sheet() const {return m_sheet;}
+  const QString & getTitle() const {return m_title;}
 
   int rowCount() const {return m_cells.size();}
-
-  const QString & getTitle() const {return m_title;}
 
   numeric_t getTotalData() const;
   numeric_t getTotalValue(const OutputColumn*) const;

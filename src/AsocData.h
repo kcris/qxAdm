@@ -6,27 +6,37 @@
 #include <QtCore/QMap>
 #include <QtCore/QUuid>
 
+struct InvoiceData
+{
+  InvoiceData();
+
+  QString issuer;
+  double amount;
+};
+
 struct LodgerData
 {
   QUuid id;
   QString name;
-  QMap<QString, double> inputValues;
+  QMap<QString, double> inputValues; //inputTitle->value
 };
 
 struct ColumnData
 {
+  ColumnData();
+
   QUuid id;
   QString name;
   QString type;
-  QList<QString> invoices;
+  QList<QString> invoices; //reference to sheet invoices
 
   double commonsPercent;
-  QList<QUuid> commonsBy; //auto-split input columns
+  QList<QString> commonsBy; //inputs titles
 
   double countedUnits;
-  QList<QUuid> countedBy; //auto-split input columns
+  QList<QString> countedBy; //inputs titles
 
-  QList<QUuid> dividedBy; //auto-split input columns
+  QList<QString> dividedBy; //inputs titles
 };
 
 struct SheetData
