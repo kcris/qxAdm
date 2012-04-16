@@ -40,11 +40,13 @@ struct Sheet
   void load(const SheetData& data);
   SheetData save() const;
 
+private:
   void insertRow(const RowId& newRowId = RowId(), const RowId& rowId = RowId());
   void deleteRow(const RowId& rowId);
   void insertColumn(Column* newCol, const ColId& colId = ColId());
   void deleteColumn(const ColId& colId);
 
+public:
   int rowCount() const;
   int columnCount() const;
 
@@ -56,7 +58,7 @@ struct Sheet
 
   void update(const RowId & rowId, const ColId & colId) const;
 
-  Column* createColumn(const ColumnData &col, const SheetData &data);
+  void createColumn(const ColumnData &col, const SheetData &data);
 
   const InputColumn* findInput(const QString & colTitle) const;
 private:

@@ -10,7 +10,7 @@ TARGET = qa
 TEMPLATE = app
 
 include(didisoft.pri)
-include(core\core.pri)
+include(core/core.pri)
 
 #link with qjson library
 INCLUDEPATH+=../deps

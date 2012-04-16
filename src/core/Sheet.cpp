@@ -55,24 +55,9 @@ void Sheet::load(const SheetData& data)
   {
     if (col.type.startsWith("input."))
     {
-      Column* pCol = createColumn(col, data);
-      insertColumn(pCol);
+      createColumn(col, data);
     }
   }
-
-//  InputDivColumn* pPers = new InputDivColumn(*this, ColId(), "p");
-//  insertColumn(pPers);
-
-//  InputCntColumn* pCnt1 = new InputCntColumn(*this, ColId(), "ac1");
-//  insertColumn(pCnt1);
-
-//  InputCntColumn* pCnt2 = new InputCntColumn(*this, ColId(), "ac2");
-//  insertColumn(pCnt2);
-
-//  InputColumn* pAC = new InputColumn(*this, ColId(), "ac"); //composite: sum of ac1 and ac2
-//  pAC->addComponent(pCnt1);
-//  pAC->addComponent(pCnt2);
-//  insertColumn(pAC);
 
   /* 3. fill inputs: names... */
   int l = 0; //rows
@@ -91,9 +76,6 @@ void Sheet::load(const SheetData& data)
         pInputCol->cellAt(l)->setData(val);
       }
     }
-//    pPers->cellAt(l)->setData(lodg.inputValues[pPers->getTitle()]);
-//    pCnt1->cellAt(l)->setData(lodg.inputValues[pCnt1->getTitle()]);
-//    pCnt2->cellAt(l)->setData(lodg.inputValues[pCnt2->getTitle()]);
 
     ++l;
   }
@@ -103,25 +85,9 @@ void Sheet::load(const SheetData& data)
   {
     if (col.type.startsWith("output."))
     {
-      Column* pCol = createColumn(col, data);
-      insertColumn(pCol);
+      createColumn(col, data);
     }
   }
-
-//  insertColumn(new OutputAutoSumColumn(*this, ColId(), "restante"));
-
-//  OutputAutoSplitColumn* pCol = new OutputAutoSplitColumn(*this, ColId(), "salubr");
-//  SplitCommonsComponent* commons = new SplitCommonsComponent(*this, *pCol);
-//  commons->addInputColumn(pPers);
-//  commons->setPercent(15);
-//  SplitCountedComponent* counted = new SplitCountedComponent(*this, *pCol);
-//  counted->addInputColumn(pCnt1);
-//  counted->setCountedUnits(48);
-//  SplitDividedComponent* divided = new SplitDividedComponent(*this, *pCol);
-//  divided->addInputColumn(pNamesCol); //equal
-//  insertColumn(pCol);
-//  pCol->addInvoice(new Invoice(352.46, "retim"));
-//  pCol->splitAmount();
 
   insertColumn(new TotalColumn(*this, ColId(), "TOTAL")); //special column: total always comes last
 
@@ -229,24 +195,24 @@ void Sheet::update(const RowId & rowId, const ColId & colId) const
   }
 }
 
-Column *Sheet::createColumn(const ColumnData &col, const SheetData &data)
+void Sheet::createColumn(const ColumnData &col, const SheetData &data)
 {
   const QString & title = col.name;
   const QString & type = col.type;
 
   if (type == "input.divider")
   {
-    return new InputDivColumn(*this, col.id, title);
+    insertColumn(new InputDivColumn(*this, col.id, title));
   }
-  if (type == "input.counter")
+  else if (type == "input.counter")
   {
-    return new InputCntColumn(*this, col.id, title);
+    insertColumn(new InputCntColumn(*this, col.id, title));
   }
-  if (type == "output.manual")
+  else if (type == "output.manual")
   {
-    return new OutputAutoSumColumn(*this, col.id, title);
+    insertColumn(new OutputAutoSumColumn(*this, col.id, title));
   }
-  if (type == "output.autosplit")
+  else if (type == "output.autosplit")
   {
     OutputAutoSplitColumn* pCol = new OutputAutoSplitColumn(*this, col.id, title);
 
@@ -284,11 +250,11 @@ Column *Sheet::createColumn(const ColumnData &col, const SheetData &data)
     }
 
     pCol->splitAmount();
-    return pCol;
   }
-
-  Q_ASSERT(false);
-  return NULL;
+  else
+  {
+    Q_ASSERT(false);
+  }
 }
 
 const InputColumn *Sheet::findInput(const QString & colTitle) const
