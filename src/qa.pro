@@ -21,18 +21,21 @@ SOURCES += main.cpp\
     SetupColumn.cpp \
     SetupAutoSplitColumn.cpp \
     EditInvoices.cpp \
-    AsocData.cpp
+    AsocData.cpp \
+    TablePrintDialog.cpp
 
 HEADERS  += MainWindow.h \
     SetupColumn.h \
     SetupAutoSplitColumn.h \
     EditInvoices.h \
-    AsocData.h
+    AsocData.h \
+    TablePrintDialog.h
 
 FORMS    += MainWindow.ui \
     SetupColumn.ui \
     SetupAutoSplitColumn.ui \
-    EditInvoices.ui
+    EditInvoices.ui \
+    TablePrintDialog.ui
 
 OTHER_FILES += ../var/qa.json
 
