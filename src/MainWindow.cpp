@@ -38,3 +38,14 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+//#include "TablePrintDialog.h"
+
+void MainWindow::show()
+{
+  QMainWindow::show();
+
+  //QPrinter p;
+  //TablePrintDialog dlg(ui->tableView, &p);
+  //dlg.print();
+}

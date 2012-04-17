@@ -18,8 +18,8 @@
  * Please contact gordos.kund@gmail.com with any questions on this license.
  */
 
-#ifndef TDPREVIEWDIALOG_H
-#define TDPREVIEWDIALOG_H
+#ifndef __TABLEPRINTDIALOG_H__
+#define __TABLEPRINTDIALOG_H__
 
 #include <QtGui/QDialog>
 #include <QtGui/QTableView> //checked
@@ -28,7 +28,11 @@
 #include <QtGui/QFileDialog> //checked
 #include <QtGui/QGraphicsView> //checked
 
-#include <ui_TablePrintDialog.h>
+#include "ui_TablePrintDialog.h"
+
+class QGraphicsScene;
+class QAbstractItemModel;
+
 
 /*! \class TDPreviewDialog
  *  \brief TDPreviewDialog dialog
@@ -36,46 +40,45 @@
  *  \version 0.12
  *  \date     2008
  */
-
-class QGraphicsScene;
-class QAbstractItemModel;
-
-// Text preview widget
-class TDPreviewDialog : public QDialog
+class TablePrintDialog : public QDialog
 {
   Q_OBJECT
   Q_ENUMS (Grids)
+
 public:
-  enum Grids {
+  enum Grids
+  {
     NoGrid=0x0,
     NormalGrid=0x1,
     AlternateColor=0x2,
     AlternateWithGrid=0x3
   };
 
-  TDPreviewDialog(QTableView *p_tableView, QPrinter * p_printer,  QWidget *parent=0);
-  virtual ~TDPreviewDialog();
-  virtual void setHeaderText(const QString &text);
-  virtual void setGridMode(Grids);
-  virtual void print();
+  TablePrintDialog(QTableView *p_tableView, QPrinter * p_printer, QWidget *parent = 0);
+
+  void setHeaderText(const QString &text);
+  void setGridMode(Grids);
+  void print();
+  void exportPdf(const QString &filename);
+
   virtual int exec();
-  virtual void exportPdf(const QString &filename);
 
 private slots:
-  virtual void on_setupToolButton_clicked();
-  virtual void on_zoomInToolButton_clicked();
-  virtual void on_zoomOutToolButton_clicked();
-  virtual void on_pageSpinBox_valueChanged(int value);
+  void on_setupToolButton_clicked();
+  void on_zoomInToolButton_clicked();
+  void on_zoomOutToolButton_clicked();
+  void on_pageSpinBox_valueChanged(int value);
 
 private:
-  Ui_TDPreviewDialog ui;
   virtual void setupPage();
   virtual void paintPage(int pagenum);
   virtual void setupSpinBox();
-  QGraphicsView *view;
+
+private:
+  Ui_TDPreviewDialog ui;
   QTableView *tableView;
   QPrinter *printer;
-  TDPreviewDialog::Grids gridMode;
+  TablePrintDialog::Grids gridMode;
   int lines;
   int pages;
   int leftMargin;
@@ -103,4 +106,4 @@ private:
   QString headerStdText;
 };
 
-#endif
+#endif //__TABLEPRINTDIALOG_H__

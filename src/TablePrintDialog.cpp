@@ -31,27 +31,33 @@
 #include <QtCore/QRectF>
 
 
-TDPreviewDialog::TDPreviewDialog(QTableView *p_tableView, QPrinter * p_printer, QWidget *parent) : QDialog(parent)
+TablePrintDialog::TablePrintDialog(QTableView *p_tableView, QPrinter * p_printer, QWidget *parent)
+  : QDialog(parent)
+  , tableView(p_tableView)
+  , printer(p_printer)
+  , gridMode(NoGrid)
+  , lines(0)
+  , pages(0)
+  , leftMargin(80)
+  , rightMargin(80)
+  , topMargin(40)
+  , bottomMargin(40)
+  , spacing(4)
+  , headerSize(60)
+  , footerSize(60)
+  , sceneZoomFactor(100)
+  , columnZoomFactor(0.65)
+  , rowHeight(0)
+  , columnMultiplier(0)
+  , model(tableView->model())
+  , titleFmt(NULL)
+  , headerFmt(NULL)
+  , fmt(NULL)
 {
-  //variables
-  tableView=p_tableView;
-  leftMargin=80;
-  rightMargin=80;
-  topMargin=40;
-  bottomMargin=40;
-  spacing=4;
-  headerSize=60;
-  footerSize=60;
-  sceneZoomFactor=100;
-  columnZoomFactor=0.65;
-  gridMode=NoGrid;
-
-  model= tableView->model();
-
   //setup printer
-  printer=p_printer;
   printer->setFullPage(true);
-  switch (QLocale::system().country()) {
+  switch (QLocale::system().country())
+  {
   case QLocale::AnyCountry:
   case QLocale::Canada:
   case QLocale::UnitedStates:
@@ -69,7 +75,8 @@ TDPreviewDialog::TDPreviewDialog(QTableView *p_tableView, QPrinter * p_printer, 
 
 
   //get column widths
-  for (int i=0; i<model->columnCount(); i++) {
+  for (int i=0; i<model->columnCount(); i++)
+  {
     int colWidth=tableView->columnWidth(i);
     colSizes.append(QTextLength(QTextLength::FixedLength,colWidth));
   }
@@ -92,7 +99,7 @@ TDPreviewDialog::TDPreviewDialog(QTableView *p_tableView, QPrinter * p_printer, 
   //normal font
   font=tableView->font();
   headerFont.setPointSize(9);
-  fmt =new  QFontMetrics(font);
+  fmt = new QFontMetrics(font);
 
 
   QString date=QDate::currentDate().toString(QLocale().dateFormat());
@@ -103,9 +110,17 @@ TDPreviewDialog::TDPreviewDialog(QTableView *p_tableView, QPrinter * p_printer, 
   columnMultiplier=pageScene.width()/tableView->width()*columnZoomFactor;
 }
 
-//=================================================================
+void TablePrintDialog::setHeaderText(const QString &text)
+{
+  headerText=text;
+}
 
-int TDPreviewDialog::exec()
+void TablePrintDialog::setGridMode(Grids _gridMode)
+{
+  gridMode=_gridMode;
+}
+
+int TablePrintDialog::exec()
 {
   //GUI
   ui.setupUi(this);
@@ -120,18 +135,13 @@ int TDPreviewDialog::exec()
   return QDialog::exec();
 }
 
-//=================================================================
 
-TDPreviewDialog::~TDPreviewDialog()
-{}
-
-//=================================================================
-
-void TDPreviewDialog::on_setupToolButton_clicked()
+void TablePrintDialog::on_setupToolButton_clicked()
 {
   QPageSetupDialog *dialog;
   dialog = new QPageSetupDialog(printer, this);
-  if (dialog->exec() == QDialog::Rejected) {
+  if (dialog->exec() == QDialog::Rejected)
+  {
     return;
   }
   setupPage();
@@ -139,40 +149,30 @@ void TDPreviewDialog::on_setupToolButton_clicked()
   setupSpinBox();
 }
 
-//=================================================================
-
-void TDPreviewDialog::on_zoomInToolButton_clicked()
+void TablePrintDialog::on_zoomInToolButton_clicked()
 {
   ui.graphicsView->scale(1.5,1.5);
 }
 
-//=================================================================
-
-void TDPreviewDialog::on_zoomOutToolButton_clicked()
+void TablePrintDialog::on_zoomOutToolButton_clicked()
 {
   ui.graphicsView->scale(1 / 1.5, 1 / 1.5);
 }
 
-//=================================================================
-
-void TDPreviewDialog::on_pageSpinBox_valueChanged(int value)
+void TablePrintDialog::on_pageSpinBox_valueChanged(int value)
 {
   paintPage(value);
   pageScene.addRect(0,0,pageScene.width(),pageScene.height(),QPen(Qt::black, 2.0));
 }
 
-//=================================================================
-
-void TDPreviewDialog::setupSpinBox()
+void TablePrintDialog::setupSpinBox()
 {
   ui.pageSpinBox->setPrefix(QString::number(pages)+" / ");
   ui.pageSpinBox->setMaximum(pages);
   ui.horizontalSlider->setMaximum(pages);
 }
 
-//=================================================================
-
-void TDPreviewDialog::setupPage()
+void TablePrintDialog::setupPage()
 {
   rowHeight=font.pointSize()+spacing;
   QRectF rect=printer->paperRect();
@@ -187,24 +187,19 @@ void TDPreviewDialog::setupPage()
   int rowCount=model->rowCount();
   double div = rowCount / lines;
   int modulo = rowCount % lines;
-  if (modulo == 0 ) {
+  if (modulo == 0 )
+  {
     pages = QVariant(div).toInt();
-  } else {
+  }
+  else
+  {
     div = div+1.0;
     pages = QVariant(div).toInt();
   }
 }
 
-//=================================================================
 
-void TDPreviewDialog::setHeaderText(const QString &text)
-{
-  headerText=text;
-}
-
-//=================================================================
-
-void TDPreviewDialog::print()
+void TablePrintDialog::print()
 {
   //printDialog
   printer->setFromTo(1,pages);
@@ -212,7 +207,8 @@ void TDPreviewDialog::print()
   printer->setOutputFileName("");
   QPrintDialog dialog(printer, this);
   dialog.setWindowTitle("Print Document");
-  if (dialog.exec() == QDialog::Rejected) {
+  if (dialog.exec() == QDialog::Rejected)
+  {
     return;
   }
   setupPage();
@@ -221,10 +217,13 @@ void TDPreviewDialog::print()
   // get num copies
   int doccopies;
   int pagecopies;
-  if (printer->collateCopies()) {
+  if (printer->collateCopies())
+  {
     doccopies = 1;
     pagecopies = printer->numCopies();
-  } else {
+  }
+  else
+  {
     doccopies = printer->numCopies();
     pagecopies = 1;
   }
@@ -232,14 +231,16 @@ void TDPreviewDialog::print()
   // get page range
   int firstpage = printer->fromPage();
   int lastpage = printer->toPage();
-  if (firstpage == 0 && lastpage == 0) { // all pages
+  if (firstpage == 0 && lastpage == 0)  // all pages
+  {
     firstpage = 1;
     lastpage =pages;
   }
 
   // print order
   bool ascending = true;
-  if (printer->pageOrder() == QPrinter::LastPageFirst) {
+  if (printer->pageOrder() == QPrinter::LastPageFirst)
+  {
     int tmp = firstpage;
     firstpage = lastpage;
     lastpage = tmp;
@@ -248,12 +249,16 @@ void TDPreviewDialog::print()
 
   // loop through and print pages
   QPainter painter(printer);
-  for (int dc=0; dc<doccopies; dc++) {
+  for (int dc=0; dc<doccopies; dc++)
+  {
     int pagenum = firstpage;
-    while (true) {
-      for (int pc=0; pc<pagecopies; pc++) {
+    while (true)
+    {
+      for (int pc=0; pc<pagecopies; pc++)
+      {
         if (printer->printerState() == QPrinter::Aborted ||
-            printer->printerState() == QPrinter::Error) {
+            printer->printerState() == QPrinter::Error)
+        {
           break;
         }
         // print page
@@ -261,23 +266,26 @@ void TDPreviewDialog::print()
         pageScene.render(&painter);
         if (pc < pagecopies-1) printer->newPage();
       }
+
       if (pagenum == lastpage) break;
-      if (ascending) {
+      if (ascending)
+      {
         pagenum++;
-      } else {
+      }
+      else
+      {
         pagenum--;
       }
       printer->newPage();
     }
 
-    if (dc < doccopies-1) printer->newPage();
+    if (dc < doccopies-1)
+      printer->newPage();
   }
 
 }
 
-//=================================================================
-
-void TDPreviewDialog::exportPdf(const QString &filename)
+void TablePrintDialog::exportPdf(const QString &filename)
 {
   // file save dialog
   QString dialogcaption = "Export PDF";
@@ -292,22 +300,23 @@ void TDPreviewDialog::exportPdf(const QString &filename)
 
   // print pdf
   QPainter painter(printer);
-  for (int pagenum=1; pagenum<=pages; pagenum++) {
+  for (int pagenum=1; pagenum<=pages; pagenum++)
+  {
     paintPage(pagenum);
     pageScene.render(&painter);
-    if (pagenum < pages) {
+    if (pagenum < pages)
+    {
       printer->newPage();
     }
   }
 }
 
-//=================================================================
-
-void TDPreviewDialog::paintPage(int pagenum)
+void TablePrintDialog::paintPage(int pagenum)
 {
   //Delete all
   QList<QGraphicsItem*> L = pageScene.items();
-  while ( ! L.empty() ) {
+  while ( ! L.empty() )
+  {
     pageScene.removeItem( L.first() );
     delete L.first();
     L.removeFirst();
@@ -315,7 +324,8 @@ void TDPreviewDialog::paintPage(int pagenum)
 
   //Table header
   int csize=0;
-  for (int i=0; i<model->columnCount(); i++) {
+  for (int i=0; i<model->columnCount(); i++)
+  {
     int logicalIndex=tableView->horizontalHeader()->logicalIndex(i);
     QString txt = model->headerData(logicalIndex,Qt::Horizontal,Qt::DisplayRole).toString();
     QGraphicsTextItem *item=new QGraphicsTextItem();
@@ -334,15 +344,18 @@ void TDPreviewDialog::paintPage(int pagenum)
   QBrush brush(Qt::gray,Qt::SolidPattern);
   int borderAdjust=rowHeight / 5;
 
-  for (int i=0; i<lines; i++) {
+  for (int i=0; i<lines; i++)
+  {
     csize=0;
     dy=(i*rowHeight)+topMargin+headerSize+(rowHeight*2);
     int modelIdxY=(pagenum-1)*lines+i;
-    if (modelIdxY>=model->rowCount()) {
+    if (modelIdxY>=model->rowCount())
+    {
       break;
     }
 
-    for (int j=0; j<model->columnCount(); j++) {
+    for (int j=0; j<model->columnCount(); j++)
+    {
       int logicalIndex=tableView->horizontalHeader()->logicalIndex(j);
       int actColSize=QVariant(colSizes[logicalIndex].rawValue()).toInt();
       QString txt = model->data(model->index(modelIdxY,logicalIndex)).toString();
@@ -355,15 +368,16 @@ void TDPreviewDialog::paintPage(int pagenum)
       item->moveBy(dx,dy);
 
       //rectangle
-      if (gridMode==NormalGrid || gridMode==AlternateWithGrid) {
+      if (gridMode==NormalGrid || gridMode==AlternateWithGrid)
+      {
         pageScene.addRect(dx,dy+borderAdjust,actColSize,rowHeight);
       }
       pageScene.addItem(item);
       csize=csize+actColSize;
     }
 
-    if (gridMode==AlternateColor || gridMode==AlternateWithGrid) {
-
+    if (gridMode==AlternateColor || gridMode==AlternateWithGrid)
+    {
       int modulo=i % 2;
       if (modulo==0) {
         //rectangle grey
@@ -375,7 +389,8 @@ void TDPreviewDialog::paintPage(int pagenum)
   }
 
   // Page header
-  if (headerSize > 0) {
+  if (headerSize > 0)
+  {
     //line
     pageScene.addLine(leftMargin,headerSize+topMargin,pageScene.width()-rightMargin, headerSize+topMargin,QPen(Qt::black, 1.0));
 
@@ -398,7 +413,8 @@ void TDPreviewDialog::paintPage(int pagenum)
   }
 
   // footer
-  if (footerSize > 0) {
+  if (footerSize > 0)
+  {
     pageScene.addLine(leftMargin,pageScene.height()-footerSize-bottomMargin,pageScene.width()-rightMargin, pageScene.height()-footerSize-bottomMargin,QPen(Qt::black, 1.0));
     QGraphicsTextItem *item=new QGraphicsTextItem();
     item->setFont(font);
@@ -409,9 +425,3 @@ void TDPreviewDialog::paintPage(int pagenum)
   //pageScene.update();
 }
 
-//=================================================================
-
-void TDPreviewDialog::setGridMode(Grids _gridMode)
-{
-  gridMode=_gridMode;
-}
