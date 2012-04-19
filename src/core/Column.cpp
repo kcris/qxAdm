@@ -108,6 +108,11 @@ void Column::update(const RowId & rowChanged) const
   m_sheet.update(rowChanged, m_colId);
 }
 
+variant_t Column::getSummary() const
+{
+  return getTotalValue(NULL);
+}
+
 int Column::findRow(const RowId& rowId) const
 {
   int row = -1;

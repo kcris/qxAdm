@@ -42,8 +42,10 @@ MainWindow::~MainWindow()
 //#include "TablePrintDialog.h"
 
 void MainWindow::show()
-{
+{  
   QMainWindow::show();
+
+  ui->tableView->resizeColumnsToContents();
 
   //QPrinter p;
   //TablePrintDialog dlg(ui->tableView, &p);

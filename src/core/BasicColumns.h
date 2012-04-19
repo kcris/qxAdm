@@ -47,6 +47,7 @@ struct StringColumn : public InputColumn
   StringColumn(const Sheet& sheet, const ColId & colId, const QString & title);
 protected:
   virtual ICell* createCell(const RowId& rowId, int index) const;
+  virtual variant_t getSummary() const;
 };
 
 struct TotalColumn : public OutputColumn

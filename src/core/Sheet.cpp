@@ -24,6 +24,9 @@
 #include "core/OutputAutoSplitColumn.h"
 #include "core/Invoice.h"
 
+#include <QtGui/QFont>
+
+
 /*
  * main bzl class
  */
@@ -360,7 +363,7 @@ void SheetModel::update(int row, int col)
 
 int SheetModel::rowCount(const QModelIndex &parent) const
 {
-  return m_sheet.rowCount();
+  return m_sheet.rowCount() + 1; //last one is TOTAL row
 }
 
 int SheetModel::columnCount(const QModelIndex &parent) const
@@ -372,9 +375,12 @@ Qt::ItemFlags SheetModel::flags(const QModelIndex &index) const
 {
   Qt::ItemFlags f = QAbstractItemModel::flags(index);
 
-  const ICell* pCell = m_sheet.cellAt(index.row(), index.column());
-  if (pCell && pCell->isEditable())
-    f |= Qt::ItemIsEditable;
+  if (index.row() < m_sheet.rowCount()) //exclude TOTAL row
+  {
+    const ICell* pCell = m_sheet.cellAt(index.row(), index.column());
+    if (pCell && pCell->isEditable())
+      f |= Qt::ItemIsEditable;
+  }
 
   return f;
 }
@@ -399,16 +405,37 @@ QVariant SheetModel::data(const QModelIndex &index, int role) const
   if (!index.isValid())
     return QVariant();
 
-  const ICell* pCell = m_sheet.cellAt(index.row(), index.column());
-  Q_ASSERT(pCell);
+  const bool isTotalRow = !(index.row() < m_sheet.rowCount());
 
-  if (role == Qt::DisplayRole || role == Qt::ToolTipRole)
+  if (role == Qt::FontRole)
   {
-    return pCell->isNumeric() ? pCell->getValue(NULL) : pCell->getData(); //TODO
+    QFont font;
+    font.setBold(isTotalRow);
+    return font;
   }
-  else if (role == Qt::EditRole)
+
+  if (role != Qt::DisplayRole && role != Qt::ToolTipRole && role != Qt::EditRole)
+    return QVariant();
+
+  if (!isTotalRow)
   {
-    return pCell->getData();
+    const ICell* pCell = m_sheet.cellAt(index.row(), index.column());
+    Q_ASSERT(pCell);
+
+    if (role == Qt::DisplayRole || role == Qt::ToolTipRole)
+    {
+      return pCell->isNumeric() ? pCell->getValue(NULL) : pCell->getData(); //TODO
+    }
+    else if (role == Qt::EditRole)
+    {
+      return pCell->getData();
+    }
+  }
+  else //TOTAL row
+  {
+    const Column* pColumn = m_sheet.columnAt(index.column());
+    if (pColumn)
+      return pColumn->getSummary();
   }
 
   return QVariant();

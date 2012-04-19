@@ -83,6 +83,11 @@ ICell* StringColumn::createCell(const RowId& rowId, int index) const
   return new StringCell(*this, rowId);
 }
 
+variant_t StringColumn::getSummary() const
+{
+  return "TOTAL";
+}
+
 
 
 struct TotalCell : public ICell
@@ -108,6 +113,5 @@ ICell* TotalColumn::createCell(const RowId& rowId, int index) const
 {
   return new TotalCell(*this, rowId);
 }
-
 
 

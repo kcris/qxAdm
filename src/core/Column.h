@@ -49,6 +49,7 @@ struct Column
   void notify(const RowId & rowChanged) const;
   virtual void update(const RowId & rowChanged) const; //override this to react as observer
 
+  virtual variant_t getSummary() const;
 protected:
   virtual ICell* createCell(const RowId& rowId, int index) const = 0;
 
