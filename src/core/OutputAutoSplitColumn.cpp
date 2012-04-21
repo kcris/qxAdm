@@ -52,7 +52,7 @@ SplitComponent::SplitComponent(const Sheet& sheet, const QString & suffix, const
 
 variant_t SplitComponent::getDescription() const
 {
-  return QString("%1 amount=%2 units=%3 price=%4")
+  return QString("%1: amount=%2 units=%3 price=%4")
       .arg(m_suffix)
       .arg(getAmount())
       .arg(getInputsUnitsTotal())
