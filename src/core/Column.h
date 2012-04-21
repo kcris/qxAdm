@@ -49,7 +49,8 @@ struct Column
   void notify(const RowId & rowChanged) const;
   virtual void update(const RowId & rowChanged) const; //override this to react as observer
 
-  virtual variant_t getSummary() const;
+  virtual variant_t getSummary() const; //shown as last line in ui table
+  virtual variant_t getDescription() const {return getSummary();} //tooltip for the last line in the ui table
 protected:
   virtual ICell* createCell(const RowId& rowId, int index) const = 0;
 

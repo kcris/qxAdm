@@ -5,6 +5,7 @@
 #include <QtCore/QList>
 #include <QtCore/QMap>
 #include <QtCore/QUuid>
+#include <QtCore/QStringList>
 
 struct InvoiceData
 {

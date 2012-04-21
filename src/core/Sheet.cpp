@@ -431,11 +431,17 @@ QVariant SheetModel::data(const QModelIndex &index, int role) const
       return pCell->getData();
     }
   }
-  else //TOTAL row
+  else //TOTAL row (summary)
   {
     const Column* pColumn = m_sheet.columnAt(index.column());
     if (pColumn)
-      return pColumn->getSummary();
+    {
+      if (role == Qt::DisplayRole)
+        return pColumn->getSummary();
+
+      if (role == Qt::ToolTipRole)
+        return pColumn->getDescription();
+    }
   }
 
   return QVariant();

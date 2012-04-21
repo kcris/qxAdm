@@ -46,7 +46,17 @@ SplitComponent::SplitComponent(const Sheet& sheet, const QString & suffix, const
   , m_amount(0.0)
   , m_pricePerUnit(0.0)
   , m_ownerCol(ownerCol)
+  , m_suffix(suffix)
 {
+}
+
+variant_t SplitComponent::getDescription() const
+{
+  return QString("%1 amount=%2 units=%3 price=%4")
+      .arg(m_suffix)
+      .arg(getAmount())
+      .arg(getInputsUnitsTotal())
+      .arg(m_pricePerUnit);
 }
 
 void SplitComponent::addInputColumn(const InputColumn* pInputCol)
@@ -228,6 +238,14 @@ OutputAutoSplitColumn::~OutputAutoSplitColumn()
     delete pInvoice;
 }
 
+variant_t OutputAutoSplitColumn::getDescription() const
+{
+  QStringList desc;
+  foreach(const Column* pComponent, m_components)
+    desc << pComponent->getDescription().toString();
+
+  return desc.join("\n");
+}
 
 void OutputAutoSplitColumn::addInvoice(Invoice* pInvoice)
 {
