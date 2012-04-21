@@ -21,3 +21,17 @@ Steps to version 1.0
 0.9 validation + colors + detailed calculus + precision issues
 
 ideeas: payed flags, cash register, receipts, online/server, plugins/scriptable support
+
+
+
+- [done] load (json)
+- [done] calculus engine
+- [done] ui view
+
+- [todo] ui edit
+- [todo] ui print
+- [todo] save (json)
+
+- [more] backrefs+timeline
+- [more] custom/overridden inputs (per output)
+- [more] validation, warnings, colors, details, precision
