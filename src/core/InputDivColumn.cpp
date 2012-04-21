@@ -20,7 +20,7 @@
 
 struct DivCell : public ICell
 {
-  DivCell(const InputDivColumn& col, const RowId& rowId) : ICell(col, rowId), m_div(1) {}
+  DivCell(const InputDivColumn& col, const RowId& rowId) : ICell(col, rowId), m_div(0) {}
 
   virtual bool isEditable() const {return true;}
   virtual bool isNumeric() const {return true;}

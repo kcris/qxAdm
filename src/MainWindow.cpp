@@ -46,6 +46,8 @@ void MainWindow::show()
   QMainWindow::show();
 
   ui->tableView->resizeColumnsToContents();
+  ui->tableView->horizontalHeader()->setMovable(true);
+  ui->tableView->horizontalHeader()->setDropIndicatorShown(true);
 
   //QPrinter p;
   //TablePrintDialog dlg(ui->tableView, &p);

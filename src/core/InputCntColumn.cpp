@@ -20,11 +20,11 @@
 
 struct CntCell : public ICell
 {
-  CntCell(const InputCntColumn& col, const RowId& rowId) : ICell(col, rowId), m_cnt(5), m_diff(4) {}
+  CntCell(const InputCntColumn& col, const RowId& rowId) : ICell(col, rowId), m_cnt(0), m_diff(0) {}
 
   virtual bool isEditable() const {return true;}
   virtual bool isNumeric() const {return true;}
-  virtual void setData(const variant_t & v) {m_cnt = v.toDouble(); m_diff = m_cnt - 1.0; m_column.notify(m_rowId);} //TODO: compute real delta
+  virtual void setData(const variant_t & v) {m_cnt = v.toDouble(); m_diff = m_cnt - 0.0; m_column.notify(m_rowId);} //TODO: compute real delta
   virtual variant_t getData() const {return m_cnt;}
 
   virtual bool isPartOfTotal() const {return false;}
