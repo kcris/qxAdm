@@ -66,7 +66,7 @@ struct StringCell : public ICell
   virtual variant_t getData() const {return m_string;}
 
   virtual bool isPartOfTotal() const {return false;}
-  virtual numeric_t getValue(const OutputColumn*) const {return 1;} //zero?
+  virtual numeric_t getValue(const OutputColumn*) const {return 1.0;}
 
 private:
   QString m_string;

@@ -39,7 +39,8 @@ bool load(const QString & json, AsocData& asoc)
     return false;
   }
 
-  QList<QString> inputColumns;
+  QList<QString> inputColumnsText;
+  QList<QString> inputColumnsValues;
 
   //header
   QVariantMap asocHeader  = root["asoc.header"].toMap();
@@ -91,9 +92,13 @@ bool load(const QString & json, AsocData& asoc)
       cd.invoices.append(inv.toString());
     }
 
-    if (cd.type.startsWith("input."))
+    if (cd.type.startsWith("input.text"))
     {
-      inputColumns.append(cd.name);
+      inputColumnsText.append(cd.name);
+    }
+    else if (cd.type.startsWith("input."))
+    {
+      inputColumnsValues.append(cd.name);
     }
 
     QVariantMap commons = column["commons"].toMap();
@@ -132,9 +137,15 @@ bool load(const QString & json, AsocData& asoc)
 
     LodgerData lodger;
     lodger.id = lodgerItem["id"].toString();
-    lodger.name = lodgerItem["name"].toString();
+    //lodger.name = lodgerItem["name"].toString();
 
-    foreach(QString inp, inputColumns)
+    foreach(QString inp, inputColumnsText)
+    {
+      QVariant val = lodgerItem[inp];
+      if (!val.isNull())
+        lodger.inputText.insert(inp, val.toString());
+    }
+    foreach(QString inp, inputColumnsValues)
     {
       QVariant val = lodgerItem[inp];
       if (!val.isNull())

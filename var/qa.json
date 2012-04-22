@@ -21,7 +21,10 @@
 
         "columns":
         [
+          {"id":"5030a87e-5f5b-40eb-96db-092767a031b4", "name":"ap", "type":"input.text" },
+          {"id":"43ca8950-0f15-4e1f-90e0-4c0954470aa8", "name":"nume", "type":"input.text" },
           {"id":"73661380-363d-11e1-b86c-0800200c9a66", "name":"p", "type":"input.divider" },
+          {"id":"25ba5331-3620-4821-8f88-45f387adf089", "name":"pg", "type":"input.divider" },
           {"id":"bb1ac0d0-3a21-11e1-b86c-0800200c9a66", "name":"s", "type":"input.divider" },	
           {"id":"e13b57c0-3a21-11e1-b86c-0800200c9a66", "name":"cpi", "type":"input.divider" },
           {"id":"29cf95c0-a22b-4d82-86ce-1d19a456f34c", "name":"ac1", "type":"input.counter"},
@@ -40,12 +43,12 @@
           {"id":"5172550a-053d-494c-81c0-1f209ca5289b", "name":"ac","type":"output.autosplit",
                          "invoices": ["calor.ac","aquatim.ac"],
                          "counted": {"units": 55,"by": ["ac1","ac2","ac3"]},
-                         "divided": {"by": ["p"]}
+                         "divided": {"by": ["ap"]}
           },
           {"id":"7be31398-356c-48c4-8db1-65ba32c2ceb9", "name":"ar","type":"output.autosplit",
                          "invoices": ["aquatim.ar"],
                          "counted": {"units": 143,"by": ["ar1","ar2","ar3"]},
-                         "divided": {"by": ["p"]}
+                         "divided": {"by": ["ap"]}
           },
           {"id":"8d5a4ca9-7546-4b18-911a-8f32c9a2f2f8", "name":"sal", "type":"output.autosplit",
                          "invoices": ["retim"],
@@ -53,7 +56,7 @@
           },
           {"id":"4b0730ac-f9bb-4e1e-b44c-6ca595c5f34a", "name":"curent", "type":"output.autosplit",
                          "invoices": ["renel"],
-                         "divided": {"by": ["p"]}
+                         "divided": {"by": ["p", "pg"]}
           },
           {"id":"732a816f-ac84-4281-97c5-030d22f0f32d", "name":"curat", "type":"output.autosplit",
                          "invoices": ["curatenie"],
@@ -61,41 +64,41 @@
           },
           {"id":"3e12faf0-71fd-4bf6-b887-cc785f4852f9", "name":"admin", "type":"output.autosplit",
                          "invoices": ["administrator"],
-                         "divided": {"by": ["p"]}
+                         "divided": {"by": ["ap"]}
           },
           {"id":"41b6e98e-2258-4060-8ae4-f39f5d9082ec", "name":"fond.rulm", "type":"output.autosplit",
                          "invoices": ["fond.rulm"],
-                         "divided": {"by": ["p"]}
+                         "divided": {"by": ["ap"]}
           },
           {"id":"e63187fc-e3a7-48d7-b657-1b76dbfab89b", "name":"restant", "type": "output.manual"}
         ],
 
         "asoc.lodgers":
         [
-          {"id":"f789fc28-6d5a-44ae-812e-ac6cec247e7d", "name":"Morariu", "p": 2, "s": 8.74, "cpi": 4.67, "ac1": 7, "ac0": 5, "ac3": 0, "ar1": 5, "ar2": 0, "ar3": 0},
-          {"id":"24083941-0fa9-47b5-8669-677a4906df9c", "name":"Mihoc", "p": 4, "s": 15.62, "cpi": 4.76, "ac1": 5, "ac2": 0, "ac3": 0, "ar1": 7, "ar2": 0, "ar3": 0},
-          {"id":"768d62da-5d9b-48e8-8266-2791619c22cb", "name":"Badarau", "p": 3, "s": 0, "cpi": 4.67, "ac1": 0, "ac2": 0, "ac3": 0, "ar1": 7, "ar2": 0, "ar3": 0},
-          {"id":"8a499cce-d2fe-487e-bdea-fae867979fd1", "name":"Raciulete", "p": 3, "s": 11.28, "cpi": 4.76, "ac1": 7, "ac2": 0, "ac3": 0, "ar1": 11, "ar2": 0, "ar3": 0},
-          {"id":"1c6deb97-0100-4ed2-b022-64e07a5bb3bc", "name":"Mocanu", "p": 2, "s": 8.48, "cpi": 4.83, "ac1": 1, "ac2": 0, "ac3": 0, "ar1": 0.5, "ar2": 0, "ar3": 0},
-          {"id":"cfeb24a5-05b5-4373-8149-6ad565784726", "name":"Postelnicu", "p": 2, "s": 0, "cpi": 4.95, "ac1": 0, "ac2": 0, "ac3": 0, "ar1": 11, "ar2": 0, "ar3": 0},
-          {"id":"0f44a2f6-dfb5-4ffc-b905-0e65908dd49c", "name":"Ienciu", "p": 1, "s": 14.83, "cpi": 5.02, "ac1": 3, "ac2": 0, "ac3": 0, "ar1": 1.5, "ar2": 0, "ar3": 0},
-          {"id":"2bc24160-7391-4130-bb42-9ccfc40e69ee", "name":"Ienciu", "p": 2, "s": 13, "cpi": 4.83, "ac1": 7, "ac2": 0, "ac3": 0, "ar1": 3, "ar2": 0, "ar3": 0},
-          {"id":"2c479aad-4998-4762-84d7-cbbb2a14f12f", "name":"Crucita", "p": 1, "s": 0, "cpi": 5.01, "ac1": 0, "ac2": 0, "ac3": 0, "ar1": 5, "ar2": 0, "ar3": 0},
-          {"id":"173923b6-d121-41ba-bc1a-31fb440343c5", "name":"Kovari Ana Viorica", "p": 1, "s": 8.46, "cpi": 4.95, "ac1": 1, "ac2": 1, "ac3": 0, "ar1": 1, "ar2": 1, "ar3": 0},
-          {"id":"39124b26-97d7-43b4-8c95-2ddc897080ea", "name":"Stefan", "p": 2, "s": 0, "cpi": 5.02, "ac1": 0, "ac2": 0, "ac3": 0, "ar1": 7.7, "ar2": 0, "ar3": 0},
-          {"id":"81208d6e-f485-4fc9-a0cb-bb61de46697a", "name":"Revnic", "p": 2, "s": 17.4, "cpi": 4.83, "ac1": 3.5, "ac2": 0, "ac3": 0, "ar1": 4, "ar2": 0, "ar3": 0},
-          {"id":"2d8f5cc7-2e24-45a5-9fa0-a68942f7024c", "name":"Ionescu", "p": 2, "s": 15.69, "cpi": 4.83, "ac1": 4.3, "ac2": 0, "ac3": 0, "ar1": 4.8, "ar2": 0, "ar3": 0},
-          {"id":"7251d4d0-0382-4602-b203-0b826b686dc6", "name":"Latici", "p": 2, "s": 0, "cpi": 5.99, "ac1": 0, "ac2": 0, "ac3": 0, "ar1": 7, "ar2": 0, "ar3": 0},
-          {"id":"b3723a5a-150c-4af2-9d9b-c9010fb80cc3", "name":"Rusneac", "p": 2, "s": 4.46, "cpi": 5.02, "ac1": 5, "ac2": 0, "ac3": 0, "ar1": 2, "ar2": 0, "ar3": 0},
-          {"id":"090b82b5-214e-4c78-ba1b-71b515285087", "name":"Pirvuceanu", "p": 2, "s": 9.23, "cpi": 4.83, "ac1": 1.9, "ac2": 0, "ac3": 0, "ar1": 2.3, "ar2": 0, "ar3": 0},
-          {"id":"723e145e-0c24-4c25-a10d-d49195a7c252", "name":"Iambor", "p": 2, "s": 0, "cpi": 4.82, "ac1": 0, "ac2": 0, "ac3": 0, "ar1": 6, "ar2": 0, "ar3": 0},
-          {"id":"d7e1e92e-7f02-413f-8268-3985a4f3d5ab", "name":"Napau", "p": 5, "s": 0, "cpi": 4.83, "ac1": 0, "ac2": 0, "ac3": 0, "ar1": 13, "ar2": 0, "ar3": 0},
-          {"id":"af6f0b2b-1854-460b-99e8-a8fe0d2dc9dc", "name":"Solotchi", "p": 2, "s": 18.67, "cpi": 4.83, "ac1": 2.5, "ac2": 0, "ac3": 0, "ar1": 2.5, "ar2": 0, "ar3": 0},
-          {"id":"9f5a6ba3-9252-4563-befa-bfaf2cccecf2", "name":"Romanu", "p": 1, "s": 13.46, "cpi": 4.83, "ac1": 3.5, "ac2": 0, "ac3": 0, "ar1": 3.5, "ar2": 0, "ar3": 0},
-          {"id":"7a7d342f-2db8-47dd-bd60-8d63141363af", "name":"Dines", "p": 2, "s": 0, "cpi": 4.08, "ac1": 0, "ac2": 0, "ac3": 0, "ar1": 5, "ar2": 0, "ar3": 0},
-          {"id":"e7e18e29-5ccf-4607-8cfe-dfa9d52e3b69", "name":"Chis", "p": 3, "s": 0, "cpi": 4.26, "ac1": 0, "ac2": 0, "ac3": 0, "ar1": 7.2, "ar2": 0, "ar3": 0},
-          {"id":"5f89479e-af7f-4162-ae30-cd42028724ad", "name":"Berzegheanu", "p": 2, "s": 0, "cpi": 4.99, "ac1": 0, "ac2": 0, "ac3": 0, "ar1": 11.5, "ar2": 0, "ar3": 0},
-          {"id":"d56d3506-7ae9-47f6-ad9f-0f9e574e5ebc", "name":"Rosu", "p": 0, "s": 0, "cpi": 4.07, "ac1": 0, "ac2": 0, "ac3": 0, "ar1": 0, "ar2": 0, "ar3": 0}
+          {"id":"f789fc28-6d5a-44ae-812e-ac6cec247e7d", "ap":"1", "nume":"Morariu", "p": 2, "pg":0, "s": 8.74, "cpi": 4.67, "ac1": 7, "ac0": 5, "ac3": 0, "ar1": 5, "ar2": 0, "ar3": 0},
+          {"id":"24083941-0fa9-47b5-8669-677a4906df9c", "ap":"2", "nume":"Mihoc", "p": 4, "pg":0, "s": 15.62, "cpi": 4.76, "ac1": 5, "ac2": 0, "ac3": 0, "ar1": 7, "ar2": 0, "ar3": 0},
+          {"id":"768d62da-5d9b-48e8-8266-2791619c22cb", "ap":"3", "nume":"Badarau", "p": 3, "pg":0, "s": 0, "cpi": 4.67, "ac1": 0, "ac2": 0, "ac3": 0, "ar1": 7, "ar2": 0, "ar3": 0},
+          {"id":"8a499cce-d2fe-487e-bdea-fae867979fd1", "ap":"4", "nume":"Raciulete", "p": 3, "pg":0, "s": 11.28, "cpi": 4.76, "ac1": 7, "ac2": 0, "ac3": 0, "ar1": 11, "ar2": 0, "ar3": 0},
+          {"id":"1c6deb97-0100-4ed2-b022-64e07a5bb3bc", "ap":"5", "nume":"Mocanu", "p": 2, "pg":0, "s": 8.48, "cpi": 4.83, "ac1": 1, "ac2": 0, "ac3": 0, "ar1": 0.5, "ar2": 0, "ar3": 0},
+          {"id":"cfeb24a5-05b5-4373-8149-6ad565784726", "ap":"6", "nume":"Postelnicu", "p": 2, "pg":0, "s": 0, "cpi": 4.95, "ac1": 0, "ac2": 0, "ac3": 0, "ar1": 11, "ar2": 0, "ar3": 0},
+          {"id":"0f44a2f6-dfb5-4ffc-b905-0e65908dd49c", "ap":"7", "nume":"Ienciu", "p": 1, "pg":0, "s": 14.83, "cpi": 5.02, "ac1": 3, "ac2": 0, "ac3": 0, "ar1": 1.5, "ar2": 0, "ar3": 0},
+          {"id":"2bc24160-7391-4130-bb42-9ccfc40e69ee", "ap":"8", "nume":"Ienciu", "p": 2, "pg":0, "s": 13, "cpi": 4.83, "ac1": 7, "ac2": 0, "ac3": 0, "ar1": 3, "ar2": 0, "ar3": 0},
+          {"id":"2c479aad-4998-4762-84d7-cbbb2a14f12f", "ap":"9", "nume":"Crucita", "p": 1, "pg":1, "s": 0, "cpi": 5.01, "ac1": 0, "ac2": 0, "ac3": 0, "ar1": 5, "ar2": 0, "ar3": 0},
+          {"id":"173923b6-d121-41ba-bc1a-31fb440343c5", "ap":"10", "nume":"Kovari Ana Viorica", "p": 1, "pg":0, "s": 8.46, "cpi": 4.95, "ac1": 1, "ac2": 1, "ac3": 0, "ar1": 1, "ar2": 1, "ar3": 0},
+          {"id":"39124b26-97d7-43b4-8c95-2ddc897080ea", "ap":"11", "nume":"Stefan", "p": 2, "pg":2, "s": 0, "cpi": 5.02, "ac1": 0, "ac2": 0, "ac3": 0, "ar1": 7.7, "ar2": 0, "ar3": 0},
+          {"id":"81208d6e-f485-4fc9-a0cb-bb61de46697a", "ap":"12", "nume":"Revnic", "p": 2, "pg":0, "s": 17.4, "cpi": 4.83, "ac1": 3.5, "ac2": 0, "ac3": 0, "ar1": 4, "ar2": 0, "ar3": 0},
+          {"id":"2d8f5cc7-2e24-45a5-9fa0-a68942f7024c", "ap":"13", "nume":"Ionescu", "p": 2, "pg":0, "s": 15.69, "cpi": 4.83, "ac1": 4.3, "ac2": 0, "ac3": 0, "ar1": 4.8, "ar2": 0, "ar3": 0},
+          {"id":"7251d4d0-0382-4602-b203-0b826b686dc6", "ap":"14", "nume":"Latici", "p": 2, "pg":2, "s": 0, "cpi": 5.99, "ac1": 0, "ac2": 0, "ac3": 0, "ar1": 7, "ar2": 0, "ar3": 0},
+          {"id":"b3723a5a-150c-4af2-9d9b-c9010fb80cc3", "ap":"15", "nume":"Rusneac", "p": 2, "pg":0, "s": 4.46, "cpi": 5.02, "ac1": 5, "ac2": 0, "ac3": 0, "ar1": 2, "ar2": 0, "ar3": 0},
+          {"id":"090b82b5-214e-4c78-ba1b-71b515285087", "ap":"16", "nume":"Pirvuceanu", "p": 2, "pg":0, "s": 9.23, "cpi": 4.83, "ac1": 1.9, "ac2": 0, "ac3": 0, "ar1": 2.3, "ar2": 0, "ar3": 0},
+          {"id":"723e145e-0c24-4c25-a10d-d49195a7c252", "ap":"17", "nume":"Iambor", "p": 2, "pg":0, "s": 0, "cpi": 4.82, "ac1": 0, "ac2": 0, "ac3": 0, "ar1": 6, "ar2": 0, "ar3": 0},
+          {"id":"d7e1e92e-7f02-413f-8268-3985a4f3d5ab", "ap":"18", "nume":"Napau", "p": 5, "pg":0, "s": 0, "cpi": 4.83, "ac1": 0, "ac2": 0, "ac3": 0, "ar1": 13, "ar2": 0, "ar3": 0},
+          {"id":"af6f0b2b-1854-460b-99e8-a8fe0d2dc9dc", "ap":"19", "nume":"Solotchi", "p": 2, "pg":0, "s": 18.67, "cpi": 4.83, "ac1": 2.5, "ac2": 0, "ac3": 0, "ar1": 2.5, "ar2": 0, "ar3": 0},
+          {"id":"9f5a6ba3-9252-4563-befa-bfaf2cccecf2", "ap":"20", "nume":"Romanu", "p": 1, "pg":0, "s": 13.46, "cpi": 4.83, "ac1": 3.5, "ac2": 0, "ac3": 0, "ar1": 3.5, "ar2": 0, "ar3": 0},
+          {"id":"7a7d342f-2db8-47dd-bd60-8d63141363af", "ap":"21", "nume":"Dines", "p": 2, "pg":0, "s": 0, "cpi": 4.08, "ac1": 0, "ac2": 0, "ac3": 0, "ar1": 5, "ar2": 0, "ar3": 0},
+          {"id":"e7e18e29-5ccf-4607-8cfe-dfa9d52e3b69", "ap":"22", "nume":"Chis", "p": 3, "pg":0, "s": 0, "cpi": 4.26, "ac1": 0, "ac2": 0, "ac3": 0, "ar1": 7.2, "ar2": 0, "ar3": 0},
+          {"id":"5f89479e-af7f-4162-ae30-cd42028724ad", "ap":"23", "nume":"Berzegheanu", "p": 2, "pg":0, "s": 0, "cpi": 4.99, "ac1": 0, "ac2": 0, "ac3": 0, "ar1": 11.5, "ar2": 0, "ar3": 0},
+          {"id":"d56d3506-7ae9-47f6-ad9f-0f9e574e5ebc", "ap":"24", "nume":"Rosu", "p": 0, "pg":0, "s": 0, "cpi": 4.07, "ac1": 0, "ac2": 0, "ac3": 0, "ar1": 0, "ar2": 0, "ar3": 0}
         ],
 
         "custom.inputs":

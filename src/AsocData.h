@@ -18,7 +18,8 @@ struct InvoiceData
 struct LodgerData
 {
   QUuid id;
-  QString name;
+  //QString name;
+  QMap<QString, QString> inputText; //inputTitle->value
   QMap<QString, double> inputValues; //inputTitle->value
 };
 

@@ -51,8 +51,8 @@ void Sheet::load(const SheetData& data)
 
 
   /* 2. add input columns */
-  StringColumn* pNamesCol = new StringColumn(*this, ColId(), "nume");
-  insertColumn(pNamesCol); //special column: name always comes first
+  //StringColumn* pNamesCol = new StringColumn(*this, ColId(), "nume");
+  //insertColumn(pNamesCol); //special column: name always comes first
 
   foreach(const ColumnData & col, data.columns)
   {
@@ -66,11 +66,21 @@ void Sheet::load(const SheetData& data)
   int l = 0; //rows
   foreach(const LodgerData & lodg, data.lodgers)
   {
-    pNamesCol->cellAt(l)->setData(lodg.name);
+    //pNamesCol->cellAt(l)->setData(lodg.name);
 
-    //input values:
-    for(int c = 1, n = m_columns.size(); c<n; ++c)
+    //inputs:
+    for(int c = 0, n = m_columns.size(); c<n; ++c)
     {
+      StringColumn* pInputTextColumn = dynamic_cast<StringColumn*>(m_columns[c]);
+      if (pInputTextColumn)
+      {
+        const QString & val = lodg.inputText[pInputTextColumn->getTitle()];
+
+        pInputTextColumn->cellAt(l)->setData(val);
+
+        continue;
+      }
+
       InputColumn* pInputCol = dynamic_cast<InputColumn*>(m_columns[c]);
       if (pInputCol)
       {
@@ -203,7 +213,11 @@ void Sheet::createColumn(const ColumnData &col, const SheetData &data)
   const QString & title = col.name;
   const QString & type = col.type;
 
-  if (type == "input.divider")
+  if (type == "input.text")
+  {
+    insertColumn(new StringColumn(*this, col.id, title));
+  }
+  else if (type == "input.divider")
   {
     insertColumn(new InputDivColumn(*this, col.id, title));
   }
