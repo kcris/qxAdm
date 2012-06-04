@@ -28,7 +28,7 @@ struct DivCell : public ICell
   virtual variant_t getData() const {return m_div;}
 
   virtual bool isPartOfTotal() const {return false;}
-  virtual numeric_t getValue(const OutputColumn* pColumn) const {return static_cast<const InputDivColumn &>(m_column).getInputValue(m_div, pColumn, m_rowId);}
+  virtual numeric_t getValue() const {return m_div;}
 
 private:
   numeric_t m_div;

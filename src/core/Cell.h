@@ -19,14 +19,26 @@
 #include "commons.h"
 #include "Column.h"
 
+struct ICell;
+
+//
+// reader of a cell's value may 'visit' (intercept) the cell to customize the resulting value
+//
+struct CellValueRetriever
+{
+  virtual ~CellValueRetriever() {}
+
+  virtual numeric_t getCellValue(const ICell & cell, const numeric_t & value) const = 0;
+};
+
 
 struct ICell
 {
   ICell(const Column& col, const RowId& rowId) : m_column(col), m_rowId(rowId) {}
   virtual ~ICell() {}
 
+  //const Column & column() const {return m_column; }
   const RowId & rowId() const {return m_rowId;}
-  //const ColId & colId() const {return m_column.id(); }
 
   void notify() const {m_column.notify(m_rowId);}
 
@@ -39,7 +51,16 @@ struct ICell
 
   //computed value
   virtual bool isPartOfTotal() const = 0;
-  virtual numeric_t getValue(const OutputColumn*) const = 0;
+private:
+  virtual numeric_t getValue() const = 0;
+
+public:
+  numeric_t getValue(const CellValueRetriever * pRetr) const
+  {
+    const numeric_t val = getValue();
+
+    return pRetr ? pRetr->getCellValue(*this, val) : val;
+  }
 
 protected:
   const Column& m_column;

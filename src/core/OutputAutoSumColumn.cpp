@@ -28,7 +28,7 @@ struct ExplicitCell : public ICell
   virtual variant_t getData() const {return m_val;}
 
   virtual bool isPartOfTotal() const {return true;}
-  virtual numeric_t getValue(const OutputColumn*) const {return m_val;}
+  virtual numeric_t getValue() const {return m_val;}
 
 private:
   numeric_t m_val;

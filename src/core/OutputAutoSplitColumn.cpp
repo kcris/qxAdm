@@ -19,6 +19,12 @@
 #include "Cell.h"
 #include "Sheet.h"
 
+
+static const QString SplitCommons = "commons";
+static const QString SplitCounted = "counted";
+static const QString SplitDivided = "divided";
+
+
 struct AutomaticCell : public ICell
 {
   AutomaticCell(const SplitComponent& col, const RowId& rowId) : ICell(col, rowId) {}
@@ -26,10 +32,10 @@ struct AutomaticCell : public ICell
   virtual bool isEditable() const {return false;}
   virtual bool isNumeric() const {return true;}
   virtual void setData(const variant_t & /*v*/) { Q_ASSERT(false); }
-  virtual variant_t getData() const { Q_ASSERT(false); return getValue(NULL); }
+  virtual variant_t getData() const { Q_ASSERT(false); return getValue(); }
 
   virtual bool isPartOfTotal() const {return true;}
-  virtual numeric_t getValue(const OutputColumn*) const
+  virtual numeric_t getValue() const
   {
     const SplitComponent& col = static_cast<const SplitComponent&>(m_column);
 
@@ -41,22 +47,45 @@ struct AutomaticCell : public ICell
 /**
  * struct SplitComponent
  */
-SplitComponent::SplitComponent(const Sheet& sheet, const QString & suffix, const OutputAutoSplitColumn & ownerCol)
-  : OutputColumn(sheet, ColId(QUuid(QString("%1.%2").arg(ownerCol.id()).arg(suffix))), suffix)
+SplitComponent::SplitComponent(const Sheet& sheet, const QString & title, const OutputAutoSplitColumn & ownerCol)
+  : OutputColumn(sheet, ColId(QUuid(QString("%1.%2").arg(ownerCol.id()).arg(title))), title)
   , m_amount(0.0)
   , m_pricePerUnit(0.0)
   , m_ownerCol(ownerCol)
-  , m_suffix(suffix)
 {
 }
 
 variant_t SplitComponent::getDescription() const
 {
   return QString("%1: amount=%2 units=%3 price=%4")
-      .arg(m_suffix)
+      .arg(getTitle())
       .arg(getAmount())
       .arg(getInputsUnitsTotal())
       .arg(m_pricePerUnit);
+}
+
+numeric_t SplitComponent::getCellValue(const ICell & cell, const numeric_t & value) const
+{
+  //
+  //1 - handle custom inputs
+  //
+  //TODO move here code from InputColumn::getInputValue, InputColumn::setCustomInputValue
+
+
+  //
+  //2 - handle implicit inter-split dependencies:
+  //
+
+  //if 'counted' is null, don't consider 'divided'
+  if (getTitle() == SplitDivided)
+  {
+    SplitComponent* pSplitCounted = m_ownerCol.getSplitComponent(SplitCounted);
+    if (pSplitCounted)
+      if (!pSplitCounted->getRowInputUnits(cell.rowId()))
+        return 0;
+  }
+
+  return value;
 }
 
 void SplitComponent::addInputColumn(const InputColumn* pInputCol)
@@ -141,7 +170,7 @@ void SplitComponent::update(const RowId & /*rowChanged*/) const
  * struct SplitCommonsComponent
  */
 SplitCommonsComponent::SplitCommonsComponent(const Sheet& sheet, const OutputAutoSplitColumn & ownerCol)
-  : SplitComponent(sheet, "commons", ownerCol)
+  : SplitComponent(sheet, SplitCommons, ownerCol)
   , m_percent(0)
 {
   ownerCol.addSplitComponent(this);
@@ -163,7 +192,7 @@ void SplitCommonsComponent::doSetAmount(const numeric_t & amount)
  * struct SplitCountedComponent
  */
 SplitCountedComponent::SplitCountedComponent(const Sheet& sheet, const OutputAutoSplitColumn & ownerCol)
-  : SplitComponent(sheet, "counted", ownerCol)
+  : SplitComponent(sheet, SplitCounted, ownerCol)
   , m_countedUnits(0)
 {
   ownerCol.addSplitComponent(this);
@@ -187,7 +216,7 @@ void SplitCountedComponent::doSetAmount(const numeric_t & amount)
  * struct SplitDividedComponent
  */
 SplitDividedComponent::SplitDividedComponent(const Sheet& sheet, const OutputAutoSplitColumn & ownerCol)
-  : SplitComponent(sheet, "divided", ownerCol)
+  : SplitComponent(sheet, SplitDivided, ownerCol)
 {
   ownerCol.addSplitComponent(this);
 }
@@ -212,12 +241,25 @@ struct OutputAutoSplitCell : public ICell
   virtual bool isEditable() const {return false;}
   virtual bool isNumeric() const {return true;}
   virtual void setData(const variant_t & /*v*/) { Q_ASSERT(false); }
-  virtual variant_t getData() const { Q_ASSERT(false); return getValue(NULL); }
+  virtual variant_t getData() const { Q_ASSERT(false); return getValue(); }
 
   virtual bool isPartOfTotal() const {return true;}
-  virtual numeric_t getValue(const OutputColumn* pOutputCol) const
+  virtual numeric_t getValue() const
   {
-    return static_cast<const OutputAutoSplitColumn&>(m_column).sumComponents(m_rowId, pOutputCol);
+    const OutputAutoSplitColumn& col = static_cast<const OutputAutoSplitColumn&>(m_column);
+
+    numeric_t val = 0.0;
+
+    foreach(const Column* pComponent, col.components())
+    {
+      const SplitComponent* pSplit = dynamic_cast<const SplitComponent*>(pComponent);
+      Q_ASSERT(pSplit);
+      val += pSplit->cellAt(m_rowId)->getValue(pSplit);
+    }
+
+    return val;
+
+    //return static_cast<const OutputAutoSplitColumn&>(m_column).sumComponents(m_rowId, pOutputCol);
   }
 };
 
@@ -257,6 +299,19 @@ void OutputAutoSplitColumn::addSplitComponent(SplitComponent* pComponent) const
   Column::addComponent(pComponent);
 }
 
+SplitComponent* OutputAutoSplitColumn::getSplitComponent(const QString & title) const
+{
+  foreach(Column* pComponent, m_components)
+  {
+    SplitComponent* pSplit = dynamic_cast<SplitComponent*>(pComponent);
+    Q_ASSERT(pSplit);
+    if (pSplit->getTitle() == title)
+      return pSplit;
+  }
+
+  return NULL;
+}
+
 ICell *OutputAutoSplitColumn::createCell(const RowId &rowId, int index) const
 {
   foreach(Column* pComponent, m_components)
@@ -288,5 +343,5 @@ void OutputAutoSplitColumn::splitAmount()
 
   Q_ASSERT(amount == 0.0);
 
-  Q_ASSERT(compareNumeric(getTotalValue(this), getAmount())); //cells sum should match
+  Q_ASSERT(compareNumeric(getTotalValue(NULL/*this*/), getAmount())); //cells sum should match
 }

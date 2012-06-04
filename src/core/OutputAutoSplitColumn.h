@@ -18,16 +18,22 @@
 
 #include "BasicColumns.h"
 
+#include "Cell.h"
+
 class Invoice;
-struct ICell;
+//struct ICell;
 struct OutputAutoSplitColumn;
 
 //auto-split output component
 struct SplitComponent : public OutputColumn
+                      , public CellValueRetriever
 {
-  SplitComponent(const Sheet& sheet, const QString & suffix, const OutputAutoSplitColumn & ownerCol);
+  SplitComponent(const Sheet& sheet, const QString & title, const OutputAutoSplitColumn & ownerCol);
 
   virtual variant_t getDescription() const;
+
+  //implement CellValueRetriever (to customize inputs handling)
+  virtual numeric_t getCellValue(const ICell & cell, const numeric_t & value) const;
 
   void addInputColumn(const InputColumn*);
 
@@ -52,7 +58,6 @@ protected:
   mutable numeric_t m_pricePerUnit;
   QList<const InputColumn*> m_inputs;
   const OutputAutoSplitColumn & m_ownerCol;
-  const QString m_suffix;
 };
 
 struct SplitCommonsComponent : public SplitComponent
@@ -109,6 +114,7 @@ struct OutputAutoSplitColumn : public OutputColumn
   void addInvoice(Invoice* pInvoice);
   void addSplitComponent(SplitComponent* pComponent) const;
 
+  SplitComponent* getSplitComponent(const QString & title) const;
 protected:
   virtual ICell* createCell(const RowId& rowId, int index) const;
 

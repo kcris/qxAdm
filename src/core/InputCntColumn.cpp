@@ -28,7 +28,7 @@ struct CntCell : public ICell
   virtual variant_t getData() const {return m_cnt;}
 
   virtual bool isPartOfTotal() const {return false;}
-  virtual numeric_t getValue(const OutputColumn* pColumn) const {return static_cast<const InputCntColumn &>(m_column).getInputValue(m_diff, pColumn, m_rowId);}
+  virtual numeric_t getValue() const {return m_diff;}
 
 private:
   numeric_t m_cnt; //current reading

@@ -26,22 +26,22 @@ InputColumn::InputColumn(const Sheet& sheet, const ColId & colId, const QString 
 {
 }
 
-numeric_t InputColumn::getInputValue(const numeric_t & referenceValue, const OutputColumn * pColumn, const RowId & forRow) const
-{
-  numeric_t value = referenceValue;
+//numeric_t InputColumn::getInputValue(const numeric_t & referenceValue, const OutputColumn * pColumn, const RowId & forRow) const
+//{
+//  numeric_t value = referenceValue;
 
-  if (pColumn)
-  {
-    //TODO: search in custom values
-  }
+//  if (pColumn)
+//  {
+//    //TODO: search in custom values
+//  }
 
-  return value;
-}
+//  return value;
+//}
 
-void InputColumn::setCustomInputValue(const OutputColumn * pColumn, const RowId & forRow)
-{
-  //store a map of custom values (per row, per output column)
-}
+//void InputColumn::setCustomInputValue(const OutputColumn * pColumn, const RowId & forRow)
+//{
+//  //store a map of custom values (per row, per output column)
+//}
 
 
 
@@ -66,7 +66,7 @@ struct StringCell : public ICell
   virtual variant_t getData() const {return m_string;}
 
   virtual bool isPartOfTotal() const {return false;}
-  virtual numeric_t getValue(const OutputColumn*) const {return 1.0;}
+  virtual numeric_t getValue() const {return 1.0;}
 
 private:
   QString m_string;
@@ -97,10 +97,10 @@ struct TotalCell : public ICell
   virtual bool isEditable() const {return false;}
   virtual bool isNumeric() const {return true;}
   virtual void setData(const variant_t & /*v*/) { Q_ASSERT(false); }
-  virtual variant_t getData() const { Q_ASSERT(false);return getValue(NULL); }
+  virtual variant_t getData() const { Q_ASSERT(false);return getValue(); }
 
   virtual bool isPartOfTotal() const {return false;}
-  virtual numeric_t getValue(const OutputColumn*) const { return m_column.sheet().totalRowValue(m_rowId); } //auto calculate row total
+  virtual numeric_t getValue() const { return m_column.sheet().totalRowValue(m_rowId); } //auto calculate row total
 };
 
 

@@ -25,11 +25,14 @@ struct InputColumn : public Column
 {
   InputColumn(const Sheet& sheet, const ColId & colId, const QString & title);
 
-  //get our input value: real or overridden (if present)
-  numeric_t getInputValue(const numeric_t & referenceValue, const OutputColumn * pColumn, const RowId & forRow) const;
+  //
+  //NOTE: TODO move code below into SplitComponent::getCellValue
+  //
+//  //get our input value: real or overridden (if present)
+//  numeric_t getInputValue(const numeric_t & referenceValue, const OutputColumn * pColumn, const RowId & forRow) const;
 
-  //store a custom/overridden value for my input (we'll return that later, when a specific output cell wants our value)
-  void setCustomInputValue(const OutputColumn * pColumn, const RowId & forRow);
+//  //store a custom/overridden value for my input (we'll return that later, when a specific output cell wants our value)
+//  void setCustomInputValue(const OutputColumn * pColumn, const RowId & forRow);
 
 private:
   //TODO: store array of custom values, for some outputcolumns

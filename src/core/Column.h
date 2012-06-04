@@ -19,6 +19,7 @@
 #include "commons.h"
 
 class ICell;
+struct CellValueRetriever;
 struct Sheet;
 struct OutputColumn;
 
@@ -30,11 +31,12 @@ struct Column
   const ColId & id() const {return m_colId;}
   const Sheet & sheet() const {return m_sheet;}
   const QString & getTitle() const {return m_title;}
+  const QList<Column*> & components() const {return m_components;}
 
   int rowCount() const {return m_cells.size();}
 
   numeric_t getTotalData() const;
-  numeric_t getTotalValue(const OutputColumn*) const;
+  numeric_t getTotalValue(const CellValueRetriever*) const;
 
   ICell* cellAt(int row) const;
   ICell* cellAt(const RowId & rowId) const;
@@ -60,7 +62,7 @@ protected:
   void addComponent(Column* pComponent) const; //allow 'composite' columns
 
 public:
-  numeric_t sumComponents(const RowId &rowId, const OutputColumn* pOutput) const;
+  numeric_t sumComponents(const RowId &rowId, const CellValueRetriever* pOutput) const;
 
 protected:
   const Sheet& m_sheet;

@@ -43,7 +43,7 @@ double Column::getTotalData() const
   return total;
 }
 
-double Column::getTotalValue(const OutputColumn* pColumn) const
+double Column::getTotalValue(const CellValueRetriever* pColumn) const
 {
   double total = 0.0;
 
@@ -133,7 +133,7 @@ void Column::addComponent(Column *pComponent) const
   m_components.push_back(pComponent);
 }
 
-numeric_t Column::sumComponents(const RowId &rowId, const OutputColumn* pOutput) const
+numeric_t Column::sumComponents(const RowId &rowId, const CellValueRetriever* pOutput) const
 {
   numeric_t val = 0.0;
 
