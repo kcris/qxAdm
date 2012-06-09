@@ -30,8 +30,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     asoc.load("../var/qa.json");
 
-    addSheetView("2011.07");
-    //addSheetView("2011.07");
+    foreach(const SheetData & s, asoc.sheets)
+      addSheetView(s.id);
 }
 
 MainWindow::~MainWindow()

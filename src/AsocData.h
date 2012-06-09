@@ -43,6 +43,7 @@ struct ColumnData
 
 struct SheetData
 {
+  QString id;
   QMap<QString, double> invoices; //name -> value
   QMap<QUuid, ColumnData> columns;  //id -> ...
   QList<LodgerData> lodgers;  //id -> ...
