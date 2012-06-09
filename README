@@ -8,13 +8,14 @@ d.s.t@g.com
 
 - [done] load (json)
 - [done] calculus engine
-- [done] ui view
+- [done] basic ui
 
-- [todo] ui edit
-- [todo] ui print
+- [todo] backrefs+timeline
 - [todo] save (json)
 
-- [more] backrefs+timeline
+- [todo] advanced ui (add del cfg columns)
+- [todo] print
+
 - [more] custom/overridden inputs (per output)
 - [more] validation, warnings, colors, details, precision
 
@@ -25,8 +26,8 @@ Steps to version 1.0
 0.3 auto-split-components, columns, observers
 0.4 serialization (json? xml? db persistence? sqlite?)
 0.5 basic user interface
-0.6 print + preview + export pdf;  edit/print modes
-0.7 backreferences + timeline
+0.6 backreferences + timeline
+0.7 print + preview + export pdf;  edit/print modes
 0.8 custom/overridden inputs
 0.9 validation + colors + detailed calculus + precision issues
 
