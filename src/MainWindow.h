@@ -33,6 +33,9 @@ public:
   void show();
 
 private:
+  void addSheetView(const QString & id);
+
+private:
     Ui::MainWindow *ui;
 };
 

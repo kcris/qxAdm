@@ -16,6 +16,8 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 
+#include <QtGui/QTableView>
+
 #include "core/Sheet.h"
 
 AsocData asoc;
@@ -28,10 +30,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     asoc.load("../var/qa.json");
 
-    SheetData & sheet = asoc.sheets.find("2011.07").value();
-
-    SheetModel* pModel = new SheetModel(sheet, this);
-    ui->tableView->setModel(pModel);
+    addSheetView("2011.07");
+    //addSheetView("2011.07");
 }
 
 MainWindow::~MainWindow()
@@ -45,11 +45,28 @@ void MainWindow::show()
 {  
   QMainWindow::show();
 
-  ui->tableView->resizeColumnsToContents();
-  ui->tableView->horizontalHeader()->setMovable(true);
-  ui->tableView->horizontalHeader()->setDropIndicatorShown(true);
 
   //QPrinter p;
   //TablePrintDialog dlg(ui->tableView, &p);
   //dlg.print();
 }
+
+void MainWindow::addSheetView(const QString & id)
+{
+  SheetData & sheet = asoc.sheets.find(id).value();
+  SheetModel* pModel = new SheetModel(sheet, this);
+
+  QTableView* pTableView = new QTableView(this);
+  pTableView->setModel(pModel);
+
+  pTableView->resizeColumnsToContents();
+  pTableView->horizontalHeader()->setMovable(true);
+  pTableView->horizontalHeader()->setDropIndicatorShown(true);
+
+  QWidget* tab = new QWidget();
+  QVBoxLayout* layout = new QVBoxLayout(tab);
+  layout->addWidget(pTableView);
+
+  ui->tabWidget->addTab(tab, id);
+}
+
