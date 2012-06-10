@@ -26,17 +26,19 @@ MainWindow::MainWindow(QWidget *parent)
   : QMainWindow(parent)
   , ui(new Ui::MainWindow)
 {
-    ui->setupUi(this);
+  ui->setupUi(this);
 
-    asoc.load("../var/qa.json");
+  asoc.load("../var/qa.json");
 
-    foreach(const SheetData & s, asoc.sheets)
-      addSheetView(s.id);
+  foreach(const SheetData & s, asoc.sheets)
+    addSheetView(s.id);
 }
 
 MainWindow::~MainWindow()
 {
-    delete ui;
+  asoc.save("../var/qa.saved.json");
+
+  delete ui;
 }
 
 //#include "TablePrintDialog.h"

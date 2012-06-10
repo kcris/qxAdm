@@ -172,6 +172,31 @@ bool load(const QString & json, AsocData& asoc)
   return ok;
 }
 
+QByteArray save(const AsocData& asoc)
+{
+  QVariantMap root; //asoc data
+
+  //header
+  QVariantMap asocHeader;
+  asocHeader["left"] = asoc.headerLeft;
+  asocHeader["center"] = asoc.headerCenter;
+  asocHeader["right"] = asoc.headerRight;
+
+  root["asoc.header"] = asocHeader;
+
+  //footer
+  QVariantMap asocFooter;
+  asocFooter["left"] = asoc.footerLeft;
+  asocFooter["center"] = asoc.footerCenter;
+  asocFooter["right"] = asoc.footerRight;
+
+  root["asoc.footer"] = asocFooter;
+
+
+  //save
+  QJson::Serializer serializer;
+  return serializer.serialize(root);
+}
 
 InvoiceData::InvoiceData()
   : amount(0)
@@ -184,27 +209,26 @@ ColumnData::ColumnData()
 {
 }
 
-
 bool AsocData::load(const QString &jsonFilename)
 {
   QFile file(jsonFilename);
   if (file.open(QIODevice::ReadOnly | QIODevice::Text))
   {
-    const QString & json = file.readAll();
-    return ::load(json, *this);
+    const QString & asocJson = file.readAll();
+    return ::load(asocJson, *this);
   }
 
   return false;
 }
 
-//bool AsocData::save(const QString &jsonFilename) const
-//{
-//  QFile file(jsonFilename);
-//  if (file.open(QIODevice::WriteOnly | QIODevice::Text))
-//  {
-//    const QString & json = ::save(*this);
-//    return 0 < file.write(json);
-//  }
+bool AsocData::save(const QString &jsonFilename) const
+{
+  QFile file(jsonFilename);
+  if (file.open(QIODevice::WriteOnly | QIODevice::Text))
+  {
+    const QByteArray & asocJson = ::save(*this);
+    return 0 < file.write(asocJson);
+  }
 
-//  return false;
-//}
+  return false;
+}
