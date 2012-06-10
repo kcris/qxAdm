@@ -192,6 +192,49 @@ QByteArray save(const AsocData& asoc)
 
   root["asoc.footer"] = asocFooter;
 
+  //sheets
+  QVariantList sheetsList;
+  QMapIterator<QString, SheetData> it(asoc.sheets);
+  while(it.hasNext())
+  {
+    it.next();
+
+    const QString & id = it.key();
+    const SheetData & sheetData = it.value();
+
+    QVariantMap sheet;
+
+    //sheet.invoices
+    QVariantMap invoices;
+    QMapIterator<QString, double> its(sheetData.invoices);
+    while(its.hasNext())
+    {
+      its.next();
+
+      const QString & invName = its.key();
+      const double & invValue = its.value();
+
+      invoices[invName] = invValue;
+    }
+    sheet["invoices"] = invoices;
+
+
+    //sheet.columns
+    //TODO
+
+
+    //asoc.lodgers
+    //TODO
+
+
+    //add sheet
+    QVariantMap item;
+    item[id] = sheet;
+
+    sheetsList.append(item);
+  }
+  root["sheets"] = sheetsList;
+
 
   //save
   QJson::Serializer serializer;
