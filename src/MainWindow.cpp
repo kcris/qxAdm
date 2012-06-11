@@ -29,6 +29,7 @@ MainWindow::MainWindow(QWidget *parent)
   ui->setupUi(this);
 
   asoc.load("../var/qa.json");
+  //asoc.load("../var/doi.json");
 
   foreach(const SheetData & s, asoc.sheets)
     addSheetView(s.id);
@@ -37,6 +38,7 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
   asoc.save("../var/qa.saved.json");
+  //asoc.save("../var/qa.test.json");
 
   delete ui;
 }

@@ -176,6 +176,9 @@ QByteArray save(const AsocData& asoc)
 {
   QVariantMap root; //asoc data
 
+  QList<QString> inputColumnsText;
+  QList<QString> inputColumnsValues;
+
   //header
   QVariantMap asocHeader;
   asocHeader["left"] = asoc.headerLeft;
@@ -220,11 +223,120 @@ QByteArray save(const AsocData& asoc)
 
 
     //sheet.columns
-    //TODO
+    QVariantList columns;
+    QMapIterator<QUuid, ColumnData> itc(sheetData.columns);
+    while(itc.hasNext())
+    {
+      itc.next();
+
+      const ColumnData & cd = itc.value();
+
+      QVariantMap column;
+      column["id"] = cd.id.toString();
+      column["name"] = cd.name;
+      column["type"] = cd.type;
+
+      QVariantList invoices;
+      QListIterator<QString> itci(cd.invoices);
+      while(itci.hasNext())
+      {
+        const QString & inv = itci.next();
+
+        invoices.append(inv);
+      }
+      column["invoices"] = invoices;
+
+      if (cd.type.startsWith("input.text"))
+      {
+        inputColumnsText.append(cd.name);
+      }
+      else if (cd.type.startsWith("input."))
+      {
+        inputColumnsValues.append(cd.name);
+      }
+
+
+      if (!cd.commonsBy.isEmpty())
+      {
+        QVariantMap commons;
+        commons["percent"] = cd.commonsPercent;
+
+        QVariantList by;
+        foreach (QString b, cd.commonsBy)
+          by.append(b);
+
+        commons["by"] = by;
+
+        column["commons"] = commons;
+      }
+
+      if (!cd.countedBy.isEmpty())
+      {
+        QVariantMap counted;
+
+        counted["units"] = cd.countedUnits;
+
+        QVariantList by;
+        foreach (QString b, cd.countedBy)
+          by.append(b);
+
+        counted["by"] = by;
+
+        column["counted"] = counted;
+      }
+
+      if (!cd.dividedBy.isEmpty())
+      {
+        QVariantMap divided;
+
+        QVariantList by;
+        foreach (QString b, cd.dividedBy)
+          by.append(b);
+
+        divided["by"] = by;
+
+        column["divided"] = divided;
+      }
+
+      columns.append(column);
+    }
+    sheet["columns"] = columns;
+
 
 
     //asoc.lodgers
-    //TODO
+    QVariantList lodgers;
+    foreach(const LodgerData & lodger, sheetData.lodgers)
+    {
+      QVariantMap lodgerItem;
+
+      lodgerItem["id"] = lodger.id.toString();
+
+      QMapIterator<QString, QString> itit(lodger.inputText);
+      while (itit.hasNext())
+      {
+        itit.next();
+
+        const QString & inp = itit.key();
+        const QString & v = itit.value();
+
+        lodgerItem[inp] = v;
+      }
+
+      QMapIterator<QString, double> itiv(lodger.inputValues);
+      while (itiv.hasNext())
+      {
+        itiv.next();
+
+        const QString & inp = itiv.key();
+        const double & v = itiv.value();
+
+        lodgerItem[inp] = v;
+      }
+
+      lodgers.append(lodgerItem);
+    }
+    sheet["asoc.lodgers"] = lodgers;
 
 
     //add sheet
