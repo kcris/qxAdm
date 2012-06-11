@@ -176,8 +176,8 @@ QByteArray save(const AsocData& asoc)
 {
   QVariantMap root; //asoc data
 
-  QList<QString> inputColumnsText;
-  QList<QString> inputColumnsValues;
+  //QList<QString> inputColumnsText;
+  //QList<QString> inputColumnsValues;
 
   //header
   QVariantMap asocHeader;
@@ -246,14 +246,14 @@ QByteArray save(const AsocData& asoc)
       }
       column["invoices"] = invoices;
 
-      if (cd.type.startsWith("input.text"))
-      {
-        inputColumnsText.append(cd.name);
-      }
-      else if (cd.type.startsWith("input."))
-      {
-        inputColumnsValues.append(cd.name);
-      }
+//      if (cd.type.startsWith("input.text"))
+//      {
+//        inputColumnsText.append(cd.name);
+//      }
+//      else if (cd.type.startsWith("input."))
+//      {
+//        inputColumnsValues.append(cd.name);
+//      }
 
 
       if (!cd.commonsBy.isEmpty())
