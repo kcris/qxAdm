@@ -11,3 +11,8 @@
 *.lai
 *.la
 *.a
+
+
+
+#visual studio files
+*.ncb
