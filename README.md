@@ -1,3 +1,3 @@
 this is the qxADM project
 
-good luck
+good luck!
