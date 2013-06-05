@@ -11,4 +11,5 @@ This is the qxADM project
 
 * [![Coverage Status](https://coveralls.io/repos/kcris/qxAdm/badge.png?branch=master)](https://coveralls.io/r/kcris/qxAdm)
 
-This is still work in progress.
+
+Build scripts (cmake, travis) are still work in progress.
