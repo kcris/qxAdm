@@ -1,3 +1,0 @@
-- diff dividers only considered if counters>0
-- timeline
-- printing/mode
