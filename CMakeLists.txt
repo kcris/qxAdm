@@ -26,6 +26,5 @@ add_executable(qxAdm main.cpp)
 target_link_libraries(qxAdm ${Qt5Widgets_LIBRARIES})
 
 
-#
 #see http://www.kdab.com/using-cmake-with-qt-5/
-#
+
