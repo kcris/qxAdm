@@ -7,8 +7,8 @@ FIND_PACKAGE(Qt4 REQUIRED)
 set(QJSON_LIB_MAJOR_VERSION 0)
 set(QJSON_LIB_MINOR_VERSION 1)
 set(QJSON_LIB_PATCH_VERSION 0)
-set(INCLUDE_INSTALL_DIR, ../include)
-set(LIB_INSTALL_DIR, ../lib)
+set(INCLUDE_INSTALL_DIR ../include)
+set(LIB_INSTALL_DIR ../lib)
 
 include_directories (./)
 
