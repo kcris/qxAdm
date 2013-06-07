@@ -17,4 +17,4 @@ qt5_use_modules(qxAdm Widgets)
 
 #see http://www.kdab.com/using-cmake-with-qt-5/
 #see http://doc-snapshot.qt-project.org/5.0/qtdoc/cmake-manual.html
-
+#http://qt-project.org/quarterly/view/using_cmake_to_build_qt_projects
