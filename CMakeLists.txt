@@ -29,14 +29,32 @@ SET(qxAdm_SOURCES
     src/SetupAutoSplitColumn.cpp
     src/EditInvoices.cpp
     src/AsocData.cpp
-    src/TablePrintDialog.cpp)
+    src/TablePrintDialog.cpp
+    src/core/Cell.cpp
+    src/core/Column.cpp
+    src/core/Sheet.cpp
+    src/core/InputCntColumn.cpp
+    src/core/InputDivColumn.cpp
+    src/core/OutputAutoSumColumn.cpp
+    src/core/OutputAutoSplitColumn.cpp
+    src/core/BasicColumns.cpp)
 SET(qxAdm_HEADERS 
     src/MainWindow.h
     src/SetupColumn.h
     src/SetupAutoSplitColumn.h
     src/EditInvoices.h
     src/AsocData.h
-    src/TablePrintDialog.h)
+    src/TablePrintDialog.h
+    src/core/Cell.h
+    src/core/Invoice.h
+    src/core/Column.h
+    src/core/Sheet.h
+    src/core/InputDivColumn.h
+    src/core/InputCntColumn.h
+    src/core/OutputAutoSumColumn.h
+    src/core/OutputAutoSplitColumn.h
+    src/core/commons.h
+    src/core/BasicColumns.h)
 SET(qxAdm_FORMS 
     src/MainWindow.ui
     src/SetupColumn.ui
@@ -47,7 +65,7 @@ SET(qxAdm_FORMS
 
 QT4_WRAP_CPP(qxAdm_HEADERS_MOC ${qxAdm_HEADERS})
 QT4_WRAP_UI(qxAdm_FORMS_HEADERS ${qxAdm_FORMS})
-QT4_ADD_RESOURCES(qxAdm_RESOURCES_RCC ${qxAdm_RESOURCES})
+#QT4_ADD_RESOURCES(qxAdm_RESOURCES_RCC ${qxAdm_RESOURCES})
 
 INCLUDE(${QT_USE_FILE})
 ADD_DEFINITIONS(${QT_DEFINITIONS})
