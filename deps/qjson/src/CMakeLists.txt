@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 2.8)
 
 #project(qjson)
 
+FIND_PACKAGE(Qt4 REQUIRED)
+
 include_directories (./)
 
 # add_custom_command (OUTPUT ${qjson_SOURCE_DIR}/lib/json_parser.cc
