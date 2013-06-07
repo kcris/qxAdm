@@ -10,7 +10,7 @@ before_install:
 before_script:
  - mkdir build
  - cd build
- - cmake ../deps/qjson/src
+ - cmake ../deps/qjson
  - cmake ..
 
 after_success:
