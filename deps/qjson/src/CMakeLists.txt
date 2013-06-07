@@ -4,6 +4,12 @@ cmake_minimum_required(VERSION 2.8)
 
 FIND_PACKAGE(Qt4 REQUIRED)
 
+set(QJSON_LIB_MAJOR_VERSION 0)
+set(QJSON_LIB_MINOR_VERSION 1)
+set(QJSON_LIB_PATCH_VERSION 0)
+set(INCLUDE_INSTALL_DIR, ../include)
+set(LIB_INSTALL_DIR, ../lib)
+
 include_directories (./)
 
 # add_custom_command (OUTPUT ${qjson_SOURCE_DIR}/lib/json_parser.cc
@@ -35,11 +41,6 @@ set (qjson_SRCS parser.cpp qobjecthelper.cpp json_scanner.cpp json_parser.cc par
 add_library (qjson SHARED ${qjson_SRCS} ${qjson_MOC_SRCS})
 target_link_libraries( qjson ${QT_LIBRARIES})
 
-
-set(QJSON_LIB_MAJOR_VERSION 0)
-set(QJSON_LIB_MINOR_VERSION 1)
-set(QJSON_LIB_PATCH_VERSION 0)
-set(LIB_INSTALL_DIR, ../lib)
 
 if(NOT android)
 	set_target_properties(qjson
