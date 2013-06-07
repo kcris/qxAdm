@@ -36,12 +36,13 @@ add_library (qjson SHARED ${qjson_SRCS} ${qjson_MOC_SRCS})
 target_link_libraries( qjson ${QT_LIBRARIES})
 
 if(NOT android)
-	set_target_properties(qjson PROPERTIES
-	                      VERSION ${QJSON_LIB_MAJOR_VERSION}.${QJSON_LIB_MINOR_VERSION}.${QJSON_LIB_PATCH_VERSION}
+	set_target_properties(qjson
+			      PROPERTIES VERSION ${QJSON_LIB_MAJOR_VERSION}.${QJSON_LIB_MINOR_VERSION}.${QJSON_LIB_PATCH_VERSION}
                               SOVERSION ${QJSON_LIB_MAJOR_VERSION}
 	                      )
 endif()
-set_target_properties(qjson PROPERTIES
+set_target_properties(qjson
+		      PROPERTIES
                       DEFINE_SYMBOL QJSON_MAKEDLL
                       )
 
