@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 
+#project(qjson)
+
 include_directories (./)
 
 # add_custom_command (OUTPUT ${qjson_SOURCE_DIR}/lib/json_parser.cc
