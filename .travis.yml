@@ -10,9 +10,11 @@ before_install:
 - sudo pip install cpp-coveralls --use-mirrors
 
 before_script:
+ - cd deps/qjson
+ - cmake .
+ - cd ../..
  - mkdir build
  - cd build
- - cmake ../deps/qjson
  - cmake ..
 
 after_success:
