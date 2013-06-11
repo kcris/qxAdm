@@ -1,4 +1,4 @@
-# Copyright (c) 2011, DidiSoft, Timisoara
+# Copyright (c) 2011, KWare
 
 #this file contains common settings for all projects
 
