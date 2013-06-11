@@ -9,7 +9,7 @@ QT       += core gui
 TARGET = qa
 TEMPLATE = app
 
-include(didisoft.pri)
+include(kware.pri)
 include(core/core.pri)
 
 #link with qjson library
