@@ -14,9 +14,7 @@ before_script:
  - cmake .
  - make
  - cd ../..
- - mkdir build
- - cd build
- - cmake ..
+ - cmake .
 
 after_success:
   - coveralls --exclude bin --exclude deps --exclude doc --exclude var
