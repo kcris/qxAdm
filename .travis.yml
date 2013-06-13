@@ -21,7 +21,7 @@ before_script:
 after_success:
   - coveralls --exclude bin --exclude deps --exclude doc --exclude var
   
-script: make -f ../Makefile
+script: make
 
 notifications:
  email:
