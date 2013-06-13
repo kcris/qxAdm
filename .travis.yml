@@ -13,7 +13,7 @@ before_script:
  - cd deps/qjson
  - cmake .
  - make
- - cd ..
+ - cd ../..
  - mkdir build
  - cd build
  - cmake ..
