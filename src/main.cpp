@@ -3,7 +3,7 @@
  * All rights reserved.
  *
  * Acquisition and use of this software and related materials for any
- * purpose requires a written licence agreement from DidiSoft,
+ * purpose requires a written licence agreement from KWare,
  * or a written licence from an organisation licenced by KWare
  * to grant such a licence.
  *
