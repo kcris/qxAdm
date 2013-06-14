@@ -1,10 +1,10 @@
 /*
- * Copyright (c) 2011, DidiSoft, Timisoara
+ * Copyright (c) 2011, KWare
  * All rights reserved.
  *
  * Acquisition and use of this software and related materials for any
  * purpose requires a written licence agreement from DidiSoft,
- * or a written licence from an organisation licenced by DidiSoft
+ * or a written licence from an organisation licenced by KWare
  * to grant such a licence.
  *
  * $Id:$
