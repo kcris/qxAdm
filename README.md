@@ -11,4 +11,6 @@ Uses: qt4, qjson 0.7.1 (qt5 will include json support)
 
 
 
-Similar repos [here](http://gitrec.mortardata.com/user/kcris)
+Similar repos [here](http://gitrec.mortardata.com/user/kcris).
+
+Some opensource books [here](http://hackershelf.com/shelf/kcris/).
