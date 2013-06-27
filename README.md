@@ -1,6 +1,7 @@
 This is the qxADM project
 
-Uses: qt4, qjson 0.7.1 (qt5 will include json support)
+Uses: qt4, qjson 0.7.1 
+Soon: qt5 (which will include json support)
 
 
 ### Code status
