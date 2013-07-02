@@ -6,7 +6,7 @@ Soon: qt5 (which will include json support)
 
 ### Code status
 
-* [![build status](https://secure.travis-ci.org/kcris/qxAdm.png)](https://travis-ci.org/kcris/qxAdm) on travis-ci.org (master branch)
+* [![build status](https://secure.travis-ci.org/kcris/qxAdm.png)](https://travis-ci.org/kcris/qxAdm)
 
 * [![Coverage Status](https://coveralls.io/repos/kcris/qxAdm/badge.png?branch=master)](https://coveralls.io/r/kcris/qxAdm)
 
