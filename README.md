@@ -1,4 +1,4 @@
-This is the qxADM project
+This is the [qxADM](http://kcris.github.io/qxAdm/) project
 
 Uses: qt4, qjson 0.7.1 
 Soon: qt5 (which will include json support)
