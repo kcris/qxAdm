@@ -1,4 +1,4 @@
-# Copyright (c) 2011, KWare
+# Copyright (c) 2011-2013, KWare
 
 #this file contains common settings for all projects
 
