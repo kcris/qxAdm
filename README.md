@@ -6,6 +6,7 @@ Soon: qt5 (which will include json support)
 
 
 ### Code status
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/kcris/qxAdm?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 * [![build status](https://secure.travis-ci.org/kcris/qxAdm.png)](https://travis-ci.org/kcris/qxAdm)
 
