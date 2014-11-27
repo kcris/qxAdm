@@ -11,7 +11,9 @@ Soon: qt5 (which will include json support)
 
 * [![Coverage Status](https://coveralls.io/repos/kcris/qxAdm/badge.png?branch=master)](https://coveralls.io/r/kcris/qxAdm)
 
+### More info
 
+* [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/kcris/qxadm/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
 Similar repos [here](http://gitrec.mortardata.com/user/kcris).
 
