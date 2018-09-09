@@ -8,15 +8,17 @@
  * to grant such a licence.
  */
 
-#include <QtWidgets/QApplication>
-#include "presentation/qtgui/MainWindow.h"
+#include "presentation/qtgui/SetupAutoSplitColumn.h"
+#include "ui_SetupAutoSplitColumn.h"
 
-int main(int argc, char *argv[])
+SetupAutoSplitColumn::SetupAutoSplitColumn(QWidget *parent)
+    : QDialog(parent)
+    , ui(new Ui::SetupAutoSplitColumn)
 {
-    QApplication a(argc, argv);
+    ui->setupUi(this);
+}
 
-    MainWindow w;
-    w.show();
-
-    return a.exec();
+SetupAutoSplitColumn::~SetupAutoSplitColumn()
+{
+    delete ui;
 }

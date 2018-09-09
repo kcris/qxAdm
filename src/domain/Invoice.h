@@ -8,15 +8,17 @@
  * to grant such a licence.
  */
 
-#include <QtWidgets/QApplication>
-#include "presentation/qtgui/MainWindow.h"
+#ifndef INVOICE_H
+#define INVOICE_H
 
-int main(int argc, char *argv[])
+#include "commons.h"
+
+struct Invoice
 {
-    QApplication a(argc, argv);
+  Invoice(const numeric_t & a, const QString & d) : m_amount(a), m_description(d) {}
 
-    MainWindow w;
-    w.show();
+  numeric_t m_amount;
+  QString m_description;
+};
 
-    return a.exec();
-}
+#endif // INVOICE_H

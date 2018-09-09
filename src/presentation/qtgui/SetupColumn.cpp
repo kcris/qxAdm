@@ -8,15 +8,17 @@
  * to grant such a licence.
  */
 
-#include <QtWidgets/QApplication>
-#include "presentation/qtgui/MainWindow.h"
+#include "presentation/qtgui/SetupColumn.h"
+#include "ui_SetupColumn.h"
 
-int main(int argc, char *argv[])
+SetupColumn::SetupColumn(QWidget *parent)
+    : QDialog(parent)
+    , ui(new Ui::SetupColumn)
 {
-    QApplication a(argc, argv);
+    ui->setupUi(this);
+}
 
-    MainWindow w;
-    w.show();
-
-    return a.exec();
+SetupColumn::~SetupColumn()
+{
+    delete ui;
 }

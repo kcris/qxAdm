@@ -8,15 +8,25 @@
  * to grant such a licence.
  */
 
-#include <QtWidgets/QApplication>
-#include "presentation/qtgui/MainWindow.h"
+#ifndef SETUPCOLUMN_H
+#define SETUPCOLUMN_H
 
-int main(int argc, char *argv[])
-{
-    QApplication a(argc, argv);
+#include <QDialog>
 
-    MainWindow w;
-    w.show();
-
-    return a.exec();
+namespace Ui {
+    class SetupColumn;
 }
+
+class SetupColumn : public QDialog
+{
+    Q_OBJECT
+
+public:
+    explicit SetupColumn(QWidget *parent = nullptr);
+    ~SetupColumn();
+
+private:
+    Ui::SetupColumn *ui;
+};
+
+#endif // SETUPCOLUMN_H

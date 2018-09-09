@@ -1,0 +1,25 @@
+# Compiled Object files
+*.slo
+*.lo
+*.o
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+
+
+
+#visual studio internal files
+*.ncb
+
+#ignored stuff
+bin
+build*
+
+qxAdm.pro.user
+var/qa.saved.json

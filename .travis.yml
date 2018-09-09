@@ -1,0 +1,66 @@
+#
+# ci script using travis
+#
+language: cpp
+cache: ccache
+dist: trusty
+
+matrix:
+  include:
+    # works on Precise and Trusty
+    - os: linux
+      compiler: gcc
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-7
+      env:
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+
+    # works on Trusty
+    - os: linux
+      compiler: clang
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test          
+            - llvm-toolchain-trusty-6.0
+            - sourceline: 'deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-6.0 main'
+              key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'          
+          packages:
+            - clang-6.0
+            - g++-7
+      env:
+        - MATRIX_EVAL="CC=clang-6.0 && CXX=clang++-6.0"
+
+env:
+  global:
+    - numjobs=4
+    - USE_CCACHE=1
+    - CCACHE_SLOPPINESS=pch_defines,time_macros
+    - CCACHE_COMPRESS=1
+    - CCACHE_MAXSIZE=100M
+
+before_install:
+- eval "${MATRIX_EVAL}"
+- sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa
+- sudo apt-get update -qq
+- sudo apt-get install -qq cmake qttools5-dev-tools qt5-qmake qtbase5-dev qtdeclarative5-dev libqt5webkit5-dev libsqlite3-dev
+
+before_script:
+- ${CXX} --version
+- mkdir build && cd build
+- cmake .. -DCMAKE_PREFIX_PATH=/usr/lib/x86_64-linux-gnu/qt5/
+  
+script:
+- make -j 3 VERBOSE=1
+
+notifications:
+ email:
+   - kcris@sogetthis.com
+ 
+ on_success: change
+ 
+ on_failure: always
