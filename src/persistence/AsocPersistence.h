@@ -8,15 +8,17 @@
  * to grant such a licence.
  */
 
-#include <QtWidgets/QApplication>
-#include "presentation/qtgui/MainWindow.h"
+#ifndef ASOCPERSISTENCE_H
+#define ASOCPERSISTENCE_H
 
-int main(int argc, char *argv[])
+#include "domain/AsocData.h"
+
+struct AsocPersistence
 {
-    QApplication a(argc, argv);
+  virtual bool load(AsocData& asoc) const = 0;
+  virtual bool save(const AsocData& asoc) const = 0;
 
-    MainWindow w;
-    w.show();
+  virtual ~AsocPersistence() = default;
+};
 
-    return a.exec();
-}
+#endif // ASOCPERSISTENCE_H

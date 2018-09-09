@@ -8,15 +8,17 @@
  * to grant such a licence.
  */
 
-#include <QtWidgets/QApplication>
-#include "presentation/qtgui/MainWindow.h"
+#include "presentation/qtgui/EditInvoices.h"
+#include "ui_EditInvoices.h"
 
-int main(int argc, char *argv[])
+EditInvoices::EditInvoices(QWidget *parent)
+    : QDialog(parent)
+    , ui(new Ui::EditInvoices)
 {
-    QApplication a(argc, argv);
+    ui->setupUi(this);
+}
 
-    MainWindow w;
-    w.show();
-
-    return a.exec();
+EditInvoices::~EditInvoices()
+{
+    delete ui;
 }
