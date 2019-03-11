@@ -9,6 +9,10 @@
 * proforma ref: optional, for final only
 * total units
 
+Sample:
+* estimated Ie:  p(Ie)..p(Ie)..p(Ie).....p(If->Ie) //anticipated,...,anticipated,regularization
+* final If: p(If)..p(If).....p(If) //remainder...remainder
+
 ## Auto split column
 
 * amounts (same afferent date for all invoices!! same units!)
