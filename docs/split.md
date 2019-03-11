@@ -3,11 +3,12 @@
 ## Invoice fields
 
 * title
-* sum
+* issuer
 * afferent date
+* total units
+* sum
 * estimated/final
 * proforma ref: optional, for final only
-* total units
 
 Sample:
 * estimated Ie:  p(Ie)..p(Ie)..p(Ie).....p(If->Ie) //anticipated,...,anticipated,regularization
