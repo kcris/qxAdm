@@ -27,9 +27,16 @@ Sample:
 ## UX functionalities
 
 * edit asoc
+  * header, footer
+  * persons: pres, cenz, adm
 * sheet
-  * add/remove apart
-  * add/remove input col
+  * add/remove apart (owner, lodger)
+  * add/remove input/div col
   * add/remove output col: manual / auto(params)
   * edit invoices
-* view settings (grouping)
+* view settings
+  * show/hide columns
+  * grouping columns
+* more
+  * printing
+  * colors, hints, warnings
