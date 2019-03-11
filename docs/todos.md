@@ -14,7 +14,7 @@ Sample:
 * estimated Ie:  p(Ie)..p(Ie)..p(Ie).....p(If->Ie) //anticipated,...,anticipated,regularization
 * final If: p(If)..p(If).....p(If) //remainder...remainder
 
-## Auto split column
+## Auto split column - params/config
 
 * amounts (same afferent date for all invoices!! same units!)
   * invoice1, fraction1
