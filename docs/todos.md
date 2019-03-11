@@ -1,4 +1,4 @@
-# Auto splitting
+# TODOs
 
 ## Invoice fields
 
@@ -23,3 +23,13 @@ Sample:
   * commons (divby, percent)
   * counted (divby, [units invoice])
   * divided (divby)
+
+## UX functionalities
+
+* edit asoc
+* sheet
+  * add/remove apart
+  * add/remove input col
+  * add/remove output col: manual / auto(params)
+  * edit invoices
+* view settings (grouping)
