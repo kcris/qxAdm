@@ -40,3 +40,4 @@ Sample:
 * more
   * printing
   * colors, hints, warnings
+  * override input value for specific output/split
