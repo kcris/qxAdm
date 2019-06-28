@@ -25,3 +25,7 @@
 * [thousandeyes-futures](https://github.com/thousandeyes/thousandeyes-futures)
 * [qtpromise](https://github.com/simonbrunel/qtpromise)
 
+#### About new c++ standards (post C++ 03)
+
+* [modern-cpp-features](https://github.com/AnthonyCalandra/modern-cpp-features)
+* [compiler_support](https://en.cppreference.com/w/cpp/compiler_support)
