@@ -15,3 +15,7 @@
 ### qt-libs
 
 * https://inqlude.org/index.html
+
+### more
+
+* [gridstudio](https://hackernoon.com/introducing-grid-studio-a-spreadsheet-app-with-python-to-make-data-science-easier-tdup38f7)
