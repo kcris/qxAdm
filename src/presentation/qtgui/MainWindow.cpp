@@ -25,18 +25,31 @@ MainWindow::MainWindow(QWidget *parent)
 {
   ui->setupUi(this);
 
+  //load asoc data from file
   JsonPersistence persist("../../var/qa.json");
   persist.load(asoc);
 
+  //copy asoc data into model/ui
   foreach(const SheetData & s, asoc.sheets)
     addSheetView(s.id);
 }
 
 MainWindow::~MainWindow()
 {
+  //copy asoc data from model/ui
+  asoc.sheets.clear();
+  for(int i = 0, n = ui->tabWidget->count(); i < n; ++i)
+  {
+    const QTableView* pTableView = static_cast<const QTableView*>(ui->tabWidget->widget(i));
+    const SheetModel* pSheetModel = static_cast<const SheetModel*>(pTableView->model());
+
+    const SheetData & sheetData = pSheetModel->sheet().save();
+    asoc.sheets[sheetData.id] = sheetData;
+  }
+
+  //save asoc data to file
   JsonPersistence persist("../../var/qa.saved.json");
   persist.save(asoc);
-  //asoc.save("../var/qa.test.json");
 
   delete ui;
 }
@@ -55,8 +68,10 @@ void MainWindow::show()
 
 void MainWindow::addSheetView(const QString & id)
 {
-  SheetData & sheet = asoc.sheets.find(id).value();
-  SheetModel* pModel = new SheetModel(sheet, this);
+  SheetData & sheetData = asoc.sheets.find(id).value();
+  SheetModel* pModel = new SheetModel(this);
+
+  pModel->sheet().load(sheetData);
 
   QTableView* pTableView = new QTableView(this);
   pTableView->setModel(pModel);

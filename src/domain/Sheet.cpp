@@ -26,11 +26,10 @@
 /*
  * main bzl class
  */
-Sheet::Sheet(const SheetData& data, ICellObserver* obs /* = nullptr */)
+Sheet::Sheet(ICellObserver* obs /* = nullptr */)
   : m_mode(editMode)
   , m_pObserver(obs)
 {
-  load(data);
 }
 
 void Sheet::load(const SheetData& data)

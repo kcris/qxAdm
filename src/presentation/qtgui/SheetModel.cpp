@@ -26,9 +26,9 @@
 /*
  * qt model used to be attached to our tableview
  */
-SheetModel::SheetModel(SheetData& s, QObject* parent /* = nullptr */)
+SheetModel::SheetModel(QObject* parent /* = nullptr */)
   : QAbstractTableModel(parent)
-  , m_sheet(s, this)
+  , m_sheet(this)
 {
 }
 

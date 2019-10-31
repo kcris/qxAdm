@@ -29,7 +29,7 @@ struct Sheet
 {
   enum enMode {editMode, printMode}; //different columns set available when printing!
 
-  Sheet(const SheetData& data, ICellObserver* obs = nullptr);
+  Sheet(ICellObserver* obs = nullptr);
 
   //TODO: load/save support
   void load(const SheetData& data);

@@ -22,7 +22,11 @@
 struct SheetModel : public QAbstractTableModel
                   , public ICellObserver
 {
-  SheetModel(SheetData& s, QObject* parent = nullptr);
+  SheetModel(QObject* parent = nullptr);
+
+  Sheet& sheet() {return m_sheet; }
+  const Sheet& sheet() const {return m_sheet; }
+
 
   //implement ICellObserver
   virtual void update(int row, int col) override;
