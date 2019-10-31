@@ -93,7 +93,7 @@ QVariant SheetModel::data(const QModelIndex &index, int role) const
     return font;
   }
 
-  if (role != Qt::DisplayRole && role != Qt::ToolTipRole && role != Qt::BackgroundRole && role != Qt::EditRole)
+  if (role != Qt::DisplayRole && role != Qt::ToolTipRole && role != Qt::BackgroundRole && role != Qt::ForegroundRole && role != Qt::EditRole)
     return QVariant();
 
   if (!isTotalRow)
@@ -113,6 +113,11 @@ QVariant SheetModel::data(const QModelIndex &index, int role) const
     {
       if (pCell->isEditable())
         return QBrush(QColor(0xFF, 0xFF, 0xE0)); //custom bg for editable cells
+    }
+    else if (role == Qt::ForegroundRole)
+    {
+      if (pCell->isEditable())
+        return QBrush(Qt::black); //custom fg for editable cells
     }
     else if (role == Qt::EditRole)
     {
