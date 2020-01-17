@@ -6,4 +6,4 @@ This is the [qxAdm](http://kcris.github.io/qxAdm/) project
 [![build status](https://secure.travis-ci.org/kcris/qxAdm.png)](https://travis-ci.org/kcris/qxAdm)
 [![Documentation](https://codedocs.xyz/kcris/qxAdm.svg)](https://codedocs.xyz/kcris/qxAdm/)
 
-Static analysic done with [cppdepend](https://www.cppdepend.com/).
+Static analysis done with [cppdepend](https://www.cppdepend.com/).
