@@ -17,3 +17,5 @@ steps:
     echo Add other tasks to build, test, and deploy your project.
     echo See https://aka.ms/yaml
   displayName: 'Run a multi-line script'
+
+## see example - https://github.com/Microsoft/cpprestsdk/blob/master/azure-pipelines.yml
