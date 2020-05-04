@@ -41,3 +41,12 @@ Sample:
   * printing
   * colors, hints, warnings
   * override input value for specific output/split
+  
+  ## QT stuff
+  
+  * qt property browser / widget
+    * https://github.com/qtproject/qt-solutions/tree/master/qtpropertybrowser
+    * https://github.com/commontk/QtPropertyBrowser
+    * https://www.codeproject.com/Articles/5256485/QtTreePropertyBrowser-vs-PropertyGrid-Application
+    * https://github.com/qtinuum/QtnProperty
+  
