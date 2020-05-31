@@ -29,3 +29,8 @@
 
 * [modern-cpp-features](https://github.com/AnthonyCalandra/modern-cpp-features)
 * [compiler_support](https://en.cppreference.com/w/cpp/compiler_support)
+
+#### Some qt libs
+
+* https://inqlude.org/
+* https://www.qt.io/marketplace
