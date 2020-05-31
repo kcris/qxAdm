@@ -33,4 +33,4 @@
 #### Some qt libs
 
 * https://inqlude.org/
-* https://www.qt.io/marketplace
+* https://marketplace.qt.io/
